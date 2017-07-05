@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sso.entity.auto.mapper.TestMapper">
-  <resultMap id="BaseResultMap" type="com.sso.entity.auto.model.Test">
+<mapper namespace="com.sso.entity.auto.mapper.SysModuleResourceMapper">
+  <resultMap id="BaseResultMap" type="com.sso.entity.auto.model.SysModuleResource">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="module_id" jdbcType="INTEGER" property="moduleId" />
+    <result column="resources_id" jdbcType="INTEGER" property="resourcesId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name
+    id, module_id, resources_id, type, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.sso.entity.auto.model.TestExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysModuleResourceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from test
+    from sys_module_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,61 +86,90 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from test
+    from sys_module_resource
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from test
+    delete from sys_module_resource
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sso.entity.auto.model.TestExample">
-    delete from test
+  <delete id="deleteByExample" parameterType="com.sso.entity.auto.model.SysModuleResourceExample">
+    delete from sys_module_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.Test" useGeneratedKeys="true">
-    insert into test (name)
-    values (#{name,jdbcType=VARCHAR})
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysModuleResource" useGeneratedKeys="true">
+    insert into sys_module_resource (module_id, resources_id, type, 
+      create_time)
+    values (#{moduleId,jdbcType=INTEGER}, #{resourcesId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.Test" useGeneratedKeys="true">
-    insert into test
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysModuleResource" useGeneratedKeys="true">
+    insert into sys_module_resource
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="moduleId != null">
+        module_id,
+      </if>
+      <if test="resourcesId != null">
+        resources_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="moduleId != null">
+        #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="resourcesId != null">
+        #{resourcesId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sso.entity.auto.model.TestExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.sso.entity.auto.model.SysModuleResourceExample" resultType="java.lang.Integer">
     select count(1) from 
     <if test="distinct">
       (select  distinct  
       <include refid="Base_Column_List" />
-          from  test
+          from  sys_module_resource
           <if test="_parameter != null">
               <include refid="Example_Where_Clause" />
           </if>) AS c
     </if>
     <if test="!distinct">
-              test
+              sys_module_resource
         <if test="_parameter != null">
           <include refid="Example_Where_Clause" />
         </if>
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update test
+    update sys_module_resource
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.moduleId != null">
+        module_id = #{record.moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.resourcesId != null">
+        resources_id = #{record.resourcesId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -145,34 +177,49 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update test
+    update sys_module_resource
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR}
+      module_id = #{record.moduleId,jdbcType=INTEGER},
+      resources_id = #{record.resourcesId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sso.entity.auto.model.Test">
-    update test
+  <update id="updateByPrimaryKeySelective" parameterType="com.sso.entity.auto.model.SysModuleResource">
+    update sys_module_resource
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="moduleId != null">
+        module_id = #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="resourcesId != null">
+        resources_id = #{resourcesId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.Test">
-    update test
-    set name = #{name,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.SysModuleResource">
+    update sys_module_resource
+    set module_id = #{moduleId,jdbcType=INTEGER},
+      resources_id = #{resourcesId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectPageByExample" parameterType="com.sso.entity.auto.model.TestExample" resultMap="BaseResultMap">
+  <select id="selectPageByExample" parameterType="com.sso.entity.auto.model.SysModuleResourceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-     from test
+     from sys_module_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -182,10 +229,10 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into test (name) 
+    insert into sys_module_resource (module_id,resources_id,type,create_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
-        (#{item.name,jdbcType=VARCHAR}) 
+        (#{item.moduleId,jdbcType=INTEGER},#{item.resourcesId,jdbcType=INTEGER},#{item.type,jdbcType=INTEGER},#{item.createTime,jdbcType=TIMESTAMP}) 
    </foreach>
   </insert>
 </mapper>

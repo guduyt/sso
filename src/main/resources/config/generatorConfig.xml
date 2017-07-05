@@ -243,24 +243,50 @@
             <ignoreColumn column="deptId" delimitedColumnName=""/>
             &ndash;&gt;
         </table>-->
-       <!-- <table tableName="sys_user">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-            <ignoreColumn column="last_time"></ignoreColumn>
-        </table>
-        <table tableName="sys_role">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-            <ignoreColumn column="create_time"></ignoreColumn>
-        </table>
-        <table tableName="sys_resource">
+
+        <table tableName="sys_app">
             <generatedKey column="id" sqlStatement="JDBC"/>
             <ignoreColumn column="last_time"></ignoreColumn>
         </table>
         <table tableName="sys_module">
             <generatedKey column="id" sqlStatement="JDBC"/>
-            <ignoreColumn column="create_time"></ignoreColumn>
-        </table>-->
-        <table tableName="test">
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_module_resource">
             <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_resource">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_resource_action">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_resource_group">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_resource_group_relation">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_role">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_role_resource">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_user">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
+        </table>
+        <table tableName="sys_user_role">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <ignoreColumn column="last_time"></ignoreColumn>
         </table>
     </context>
 </generatorConfiguration> 

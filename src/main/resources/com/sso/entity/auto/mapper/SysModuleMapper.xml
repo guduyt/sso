@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sso.entity.auto.mapper.SysModuleMapper">
+  <resultMap id="BaseResultMap" type="com.sso.entity.auto.model.SysModule">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="app_id" jdbcType="INTEGER" property="appId" />
+    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+    <result column="module_type" jdbcType="TINYINT" property="moduleType" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="module_path" jdbcType="VARCHAR" property="modulePath" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="level" jdbcType="BIT" property="level" />
+    <result column="controller_name" jdbcType="VARCHAR" property="controllerName" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="order" jdbcType="TINYINT" property="order" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, app_id, module_name, module_type, description, module_path, parent_id, level, 
+    controller_name, enable, order, remark, creator, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysModuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_module
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_module
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sso.entity.auto.model.SysModuleExample">
+    delete from sys_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysModule" useGeneratedKeys="true">
+    insert into sys_module (app_id, module_name, module_type, 
+      description, module_path, parent_id, 
+      level, controller_name, enable, 
+      order, remark, creator, 
+      create_time)
+    values (#{appId,jdbcType=INTEGER}, #{moduleName,jdbcType=VARCHAR}, #{moduleType,jdbcType=TINYINT}, 
+      #{description,jdbcType=VARCHAR}, #{modulePath,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{level,jdbcType=BIT}, #{controllerName,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
+      #{order,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysModule" useGeneratedKeys="true">
+    insert into sys_module
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="moduleName != null">
+        module_name,
+      </if>
+      <if test="moduleType != null">
+        module_type,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="modulePath != null">
+        module_path,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="controllerName != null">
+        controller_name,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+      <if test="order != null">
+        order,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appId != null">
+        #{appId,jdbcType=INTEGER},
+      </if>
+      <if test="moduleName != null">
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleType != null">
+        #{moduleType,jdbcType=TINYINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="modulePath != null">
+        #{modulePath,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=BIT},
+      </if>
+      <if test="controllerName != null">
+        #{controllerName,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
+      </if>
+      <if test="order != null">
+        #{order,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sso.entity.auto.model.SysModuleExample" resultType="java.lang.Integer">
+    select count(1) from 
+    <if test="distinct">
+      (select  distinct  
+      <include refid="Base_Column_List" />
+          from  sys_module
+          <if test="_parameter != null">
+              <include refid="Example_Where_Clause" />
+          </if>) AS c
+    </if>
+    <if test="!distinct">
+              sys_module
+        <if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_module
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=INTEGER},
+      </if>
+      <if test="record.moduleName != null">
+        module_name = #{record.moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleType != null">
+        module_type = #{record.moduleType,jdbcType=TINYINT},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modulePath != null">
+        module_path = #{record.modulePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=BIT},
+      </if>
+      <if test="record.controllerName != null">
+        controller_name = #{record.controllerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enable != null">
+        enable = #{record.enable,jdbcType=BIT},
+      </if>
+      <if test="record.order != null">
+        order = #{record.order,jdbcType=TINYINT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_module
+    set id = #{record.id,jdbcType=INTEGER},
+      app_id = #{record.appId,jdbcType=INTEGER},
+      module_name = #{record.moduleName,jdbcType=VARCHAR},
+      module_type = #{record.moduleType,jdbcType=TINYINT},
+      description = #{record.description,jdbcType=VARCHAR},
+      module_path = #{record.modulePath,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      level = #{record.level,jdbcType=BIT},
+      controller_name = #{record.controllerName,jdbcType=VARCHAR},
+      enable = #{record.enable,jdbcType=BIT},
+      order = #{record.order,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sso.entity.auto.model.SysModule">
+    update sys_module
+    <set>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=INTEGER},
+      </if>
+      <if test="moduleName != null">
+        module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleType != null">
+        module_type = #{moduleType,jdbcType=TINYINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="modulePath != null">
+        module_path = #{modulePath,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=BIT},
+      </if>
+      <if test="controllerName != null">
+        controller_name = #{controllerName,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=BIT},
+      </if>
+      <if test="order != null">
+        order = #{order,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.SysModule">
+    update sys_module
+    set app_id = #{appId,jdbcType=INTEGER},
+      module_name = #{moduleName,jdbcType=VARCHAR},
+      module_type = #{moduleType,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
+      module_path = #{modulePath,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      level = #{level,jdbcType=BIT},
+      controller_name = #{controllerName,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=BIT},
+      order = #{order,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectPageByExample" parameterType="com.sso.entity.auto.model.SysModuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+     from sys_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+       order by ${orderByClause} 
+    </if>
+    <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
+  </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into sys_module (app_id,module_name,module_type,description,module_path,parent_id,level,controller_name,enable,order,remark,creator,create_time) 
+    values 
+    <foreach collection="list" item="item" index="index" separator="," > 
+        (#{item.appId,jdbcType=INTEGER},#{item.moduleName,jdbcType=VARCHAR},#{item.moduleType,jdbcType=TINYINT},#{item.description,jdbcType=VARCHAR},#{item.modulePath,jdbcType=VARCHAR},#{item.parentId,jdbcType=INTEGER},#{item.level,jdbcType=BIT},#{item.controllerName,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.order,jdbcType=TINYINT},#{item.remark,jdbcType=VARCHAR},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 
+   </foreach>
+  </insert>
+</mapper>
