@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, role_name, description, enable, order, creator, create_time
+    id, role_name, description, `enable`, `order`, creator, create_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysRoleExample" resultMap="BaseResultMap">
     select
@@ -102,8 +102,8 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysRole" useGeneratedKeys="true">
-    insert into sys_role (role_name, description, enable, 
-      order, creator, create_time
+    insert into sys_role (role_name, description, `enable`, 
+      `order`, creator, create_time
       )
     values (#{roleName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
       #{order,jdbcType=TINYINT}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
@@ -119,10 +119,10 @@
         description,
       </if>
       <if test="enable != null">
-        enable,
+        `enable`,
       </if>
       <if test="order != null">
-        order,
+        `order`,
       </if>
       <if test="creator != null">
         creator,
@@ -182,10 +182,10 @@
         description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.enable != null">
-        enable = #{record.enable,jdbcType=BIT},
+        `enable` = #{record.enable,jdbcType=BIT},
       </if>
       <if test="record.order != null">
-        order = #{record.order,jdbcType=TINYINT},
+        `order` = #{record.order,jdbcType=TINYINT},
       </if>
       <if test="record.creator != null">
         creator = #{record.creator,jdbcType=VARCHAR},
@@ -203,8 +203,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       role_name = #{record.roleName,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
-      enable = #{record.enable,jdbcType=BIT},
-      order = #{record.order,jdbcType=TINYINT},
+      `enable` = #{record.enable,jdbcType=BIT},
+      `order` = #{record.order,jdbcType=TINYINT},
       creator = #{record.creator,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -221,10 +221,10 @@
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="enable != null">
-        enable = #{enable,jdbcType=BIT},
+        `enable` = #{enable,jdbcType=BIT},
       </if>
       <if test="order != null">
-        order = #{order,jdbcType=TINYINT},
+        `order` = #{order,jdbcType=TINYINT},
       </if>
       <if test="creator != null">
         creator = #{creator,jdbcType=VARCHAR},
@@ -239,8 +239,8 @@
     update sys_role
     set role_name = #{roleName,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=BIT},
-      order = #{order,jdbcType=TINYINT},
+      `enable` = #{enable,jdbcType=BIT},
+      `order` = #{order,jdbcType=TINYINT},
       creator = #{creator,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -261,7 +261,7 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_role (role_name,description,enable,order,creator,create_time) 
+    insert into sys_role (role_name,description,`enable`,`order`,creator,create_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
         (#{item.roleName,jdbcType=VARCHAR},#{item.description,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.order,jdbcType=TINYINT},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 

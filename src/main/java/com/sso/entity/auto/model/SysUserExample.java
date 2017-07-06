@@ -237,72 +237,72 @@ public class SysUserExample extends BaseExample {
         }
 
         public Criteria andPasswordIsNull() {
-            addCriterion("password is null");
+            addCriterion("`password` is null");
             return (Criteria) this;
         }
 
         public Criteria andPasswordIsNotNull() {
-            addCriterion("password is not null");
+            addCriterion("`password` is not null");
             return (Criteria) this;
         }
 
         public Criteria andPasswordEqualTo(String value) {
-            addCriterion("password =", value, "password");
+            addCriterion("`password` =", value, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordNotEqualTo(String value) {
-            addCriterion("password <>", value, "password");
+            addCriterion("`password` <>", value, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordGreaterThan(String value) {
-            addCriterion("password >", value, "password");
+            addCriterion("`password` >", value, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordGreaterThanOrEqualTo(String value) {
-            addCriterion("password >=", value, "password");
+            addCriterion("`password` >=", value, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordLessThan(String value) {
-            addCriterion("password <", value, "password");
+            addCriterion("`password` <", value, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordLessThanOrEqualTo(String value) {
-            addCriterion("password <=", value, "password");
+            addCriterion("`password` <=", value, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordLike(String value) {
-            addCriterion("password like", value, "password");
+            addCriterion("`password` like", value, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordNotLike(String value) {
-            addCriterion("password not like", value, "password");
+            addCriterion("`password` not like", value, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordIn(List<String> values) {
-            addCriterion("password in", values, "password");
+            addCriterion("`password` in", values, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordNotIn(List<String> values) {
-            addCriterion("password not in", values, "password");
+            addCriterion("`password` not in", values, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordBetween(String value1, String value2) {
-            addCriterion("password between", value1, value2, "password");
+            addCriterion("`password` between", value1, value2, "password");
             return (Criteria) this;
         }
 
         public Criteria andPasswordNotBetween(String value1, String value2) {
-            addCriterion("password not between", value1, value2, "password");
+            addCriterion("`password` not between", value1, value2, "password");
             return (Criteria) this;
         }
 
@@ -447,62 +447,62 @@ public class SysUserExample extends BaseExample {
         }
 
         public Criteria andEnableIsNull() {
-            addCriterion("enable is null");
+            addCriterion("`enable` is null");
             return (Criteria) this;
         }
 
         public Criteria andEnableIsNotNull() {
-            addCriterion("enable is not null");
+            addCriterion("`enable` is not null");
             return (Criteria) this;
         }
 
         public Criteria andEnableEqualTo(Boolean value) {
-            addCriterion("enable =", value, "enable");
+            addCriterion("`enable` =", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotEqualTo(Boolean value) {
-            addCriterion("enable <>", value, "enable");
+            addCriterion("`enable` <>", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableGreaterThan(Boolean value) {
-            addCriterion("enable >", value, "enable");
+            addCriterion("`enable` >", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("enable >=", value, "enable");
+            addCriterion("`enable` >=", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableLessThan(Boolean value) {
-            addCriterion("enable <", value, "enable");
+            addCriterion("`enable` <", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableLessThanOrEqualTo(Boolean value) {
-            addCriterion("enable <=", value, "enable");
+            addCriterion("`enable` <=", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableIn(List<Boolean> values) {
-            addCriterion("enable in", values, "enable");
+            addCriterion("`enable` in", values, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotIn(List<Boolean> values) {
-            addCriterion("enable not in", values, "enable");
+            addCriterion("`enable` not in", values, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableBetween(Boolean value1, Boolean value2) {
-            addCriterion("enable between", value1, value2, "enable");
+            addCriterion("`enable` between", value1, value2, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("enable not between", value1, value2, "enable");
+            addCriterion("`enable` not between", value1, value2, "enable");
             return (Criteria) this;
         }
 
@@ -962,7 +962,7 @@ public class SysUserExample extends BaseExample {
         }
 
         public Criteria andPasswordLikeInsensitive(String value) {
-            addCriterion("upper(password) like", value.toUpperCase(), "password");
+            addCriterion("upper(`password`) like", value.toUpperCase(), "password");
             return (Criteria) this;
         }
 

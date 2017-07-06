@@ -76,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, app_id, module_name, module_type, description, module_path, parent_id, level, 
-    controller_name, enable, order, remark, creator, create_time
+    id, app_id, module_name, module_type, description, module_path, parent_id, `level`, 
+    controller_name, `enable`, `order`, remark, creator, create_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysModuleExample" resultMap="BaseResultMap">
     select
@@ -112,8 +112,8 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysModule" useGeneratedKeys="true">
     insert into sys_module (app_id, module_name, module_type, 
       description, module_path, parent_id, 
-      level, controller_name, enable, 
-      order, remark, creator, 
+      `level`, controller_name, `enable`, 
+      `order`, remark, creator, 
       create_time)
     values (#{appId,jdbcType=INTEGER}, #{moduleName,jdbcType=VARCHAR}, #{moduleType,jdbcType=TINYINT}, 
       #{description,jdbcType=VARCHAR}, #{modulePath,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
@@ -143,16 +143,16 @@
         parent_id,
       </if>
       <if test="level != null">
-        level,
+        `level`,
       </if>
       <if test="controllerName != null">
         controller_name,
       </if>
       <if test="enable != null">
-        enable,
+        `enable`,
       </if>
       <if test="order != null">
-        order,
+        `order`,
       </if>
       <if test="remark != null">
         remark,
@@ -248,16 +248,16 @@
         parent_id = #{record.parentId,jdbcType=INTEGER},
       </if>
       <if test="record.level != null">
-        level = #{record.level,jdbcType=BIT},
+        `level` = #{record.level,jdbcType=BIT},
       </if>
       <if test="record.controllerName != null">
         controller_name = #{record.controllerName,jdbcType=VARCHAR},
       </if>
       <if test="record.enable != null">
-        enable = #{record.enable,jdbcType=BIT},
+        `enable` = #{record.enable,jdbcType=BIT},
       </if>
       <if test="record.order != null">
-        order = #{record.order,jdbcType=TINYINT},
+        `order` = #{record.order,jdbcType=TINYINT},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -282,10 +282,10 @@
       description = #{record.description,jdbcType=VARCHAR},
       module_path = #{record.modulePath,jdbcType=VARCHAR},
       parent_id = #{record.parentId,jdbcType=INTEGER},
-      level = #{record.level,jdbcType=BIT},
+      `level` = #{record.level,jdbcType=BIT},
       controller_name = #{record.controllerName,jdbcType=VARCHAR},
-      enable = #{record.enable,jdbcType=BIT},
-      order = #{record.order,jdbcType=TINYINT},
+      `enable` = #{record.enable,jdbcType=BIT},
+      `order` = #{record.order,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR},
       creator = #{record.creator,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
@@ -315,16 +315,16 @@
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
       <if test="level != null">
-        level = #{level,jdbcType=BIT},
+        `level` = #{level,jdbcType=BIT},
       </if>
       <if test="controllerName != null">
         controller_name = #{controllerName,jdbcType=VARCHAR},
       </if>
       <if test="enable != null">
-        enable = #{enable,jdbcType=BIT},
+        `enable` = #{enable,jdbcType=BIT},
       </if>
       <if test="order != null">
-        order = #{order,jdbcType=TINYINT},
+        `order` = #{order,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -346,10 +346,10 @@
       description = #{description,jdbcType=VARCHAR},
       module_path = #{modulePath,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
-      level = #{level,jdbcType=BIT},
+      `level` = #{level,jdbcType=BIT},
       controller_name = #{controllerName,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=BIT},
-      order = #{order,jdbcType=TINYINT},
+      `enable` = #{enable,jdbcType=BIT},
+      `order` = #{order,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
@@ -371,7 +371,7 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_module (app_id,module_name,module_type,description,module_path,parent_id,level,controller_name,enable,order,remark,creator,create_time) 
+    insert into sys_module (app_id,module_name,module_type,description,module_path,parent_id,`level`,controller_name,`enable`,`order`,remark,creator,create_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
         (#{item.appId,jdbcType=INTEGER},#{item.moduleName,jdbcType=VARCHAR},#{item.moduleType,jdbcType=TINYINT},#{item.description,jdbcType=VARCHAR},#{item.modulePath,jdbcType=VARCHAR},#{item.parentId,jdbcType=INTEGER},#{item.level,jdbcType=BIT},#{item.controllerName,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.order,jdbcType=TINYINT},#{item.remark,jdbcType=VARCHAR},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 

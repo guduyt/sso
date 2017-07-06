@@ -307,122 +307,122 @@ public class SysRoleExample extends BaseExample {
         }
 
         public Criteria andEnableIsNull() {
-            addCriterion("enable is null");
+            addCriterion("`enable` is null");
             return (Criteria) this;
         }
 
         public Criteria andEnableIsNotNull() {
-            addCriterion("enable is not null");
+            addCriterion("`enable` is not null");
             return (Criteria) this;
         }
 
         public Criteria andEnableEqualTo(Boolean value) {
-            addCriterion("enable =", value, "enable");
+            addCriterion("`enable` =", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotEqualTo(Boolean value) {
-            addCriterion("enable <>", value, "enable");
+            addCriterion("`enable` <>", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableGreaterThan(Boolean value) {
-            addCriterion("enable >", value, "enable");
+            addCriterion("`enable` >", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("enable >=", value, "enable");
+            addCriterion("`enable` >=", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableLessThan(Boolean value) {
-            addCriterion("enable <", value, "enable");
+            addCriterion("`enable` <", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableLessThanOrEqualTo(Boolean value) {
-            addCriterion("enable <=", value, "enable");
+            addCriterion("`enable` <=", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableIn(List<Boolean> values) {
-            addCriterion("enable in", values, "enable");
+            addCriterion("`enable` in", values, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotIn(List<Boolean> values) {
-            addCriterion("enable not in", values, "enable");
+            addCriterion("`enable` not in", values, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableBetween(Boolean value1, Boolean value2) {
-            addCriterion("enable between", value1, value2, "enable");
+            addCriterion("`enable` between", value1, value2, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("enable not between", value1, value2, "enable");
+            addCriterion("`enable` not between", value1, value2, "enable");
             return (Criteria) this;
         }
 
         public Criteria andOrderIsNull() {
-            addCriterion("order is null");
+            addCriterion("`order` is null");
             return (Criteria) this;
         }
 
         public Criteria andOrderIsNotNull() {
-            addCriterion("order is not null");
+            addCriterion("`order` is not null");
             return (Criteria) this;
         }
 
         public Criteria andOrderEqualTo(Byte value) {
-            addCriterion("order =", value, "order");
+            addCriterion("`order` =", value, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderNotEqualTo(Byte value) {
-            addCriterion("order <>", value, "order");
+            addCriterion("`order` <>", value, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderGreaterThan(Byte value) {
-            addCriterion("order >", value, "order");
+            addCriterion("`order` >", value, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderGreaterThanOrEqualTo(Byte value) {
-            addCriterion("order >=", value, "order");
+            addCriterion("`order` >=", value, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderLessThan(Byte value) {
-            addCriterion("order <", value, "order");
+            addCriterion("`order` <", value, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderLessThanOrEqualTo(Byte value) {
-            addCriterion("order <=", value, "order");
+            addCriterion("`order` <=", value, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderIn(List<Byte> values) {
-            addCriterion("order in", values, "order");
+            addCriterion("`order` in", values, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderNotIn(List<Byte> values) {
-            addCriterion("order not in", values, "order");
+            addCriterion("`order` not in", values, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderBetween(Byte value1, Byte value2) {
-            addCriterion("order between", value1, value2, "order");
+            addCriterion("`order` between", value1, value2, "order");
             return (Criteria) this;
         }
 
         public Criteria andOrderNotBetween(Byte value1, Byte value2) {
-            addCriterion("order not between", value1, value2, "order");
+            addCriterion("`order` not between", value1, value2, "order");
             return (Criteria) this;
         }
 

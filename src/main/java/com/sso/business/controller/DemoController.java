@@ -1,7 +1,5 @@
 package com.sso.business.controller;
 
-import com.sso.business.vo.DemoVO;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sso.business.vo.DemoVO;
 
 /**
  * DemoController
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2017/7/5 21:15
  */
 
-@Controller
+@RestController
 @RequestMapping("/demo")
 public class DemoController {
 

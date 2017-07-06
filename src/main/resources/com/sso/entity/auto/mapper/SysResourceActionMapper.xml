@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, mark, type, enable, order, creator, create_time
+    id, `name`, mark, `type`, `enable`, `order`, creator, create_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysResourceActionExample" resultMap="BaseResultMap">
     select
@@ -103,8 +103,8 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysResourceAction" useGeneratedKeys="true">
-    insert into sys_resource_action (name, mark, type, 
-      enable, order, creator, 
+    insert into sys_resource_action (`name`, mark, `type`, 
+      `enable`, `order`, creator, 
       create_time)
     values (#{name,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
       #{enable,jdbcType=BIT}, #{order,jdbcType=TINYINT}, #{creator,jdbcType=VARCHAR}, 
@@ -114,19 +114,19 @@
     insert into sys_resource_action
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
-        name,
+        `name`,
       </if>
       <if test="mark != null">
         mark,
       </if>
       <if test="type != null">
-        type,
+        `type`,
       </if>
       <if test="enable != null">
-        enable,
+        `enable`,
       </if>
       <if test="order != null">
-        order,
+        `order`,
       </if>
       <if test="creator != null">
         creator,
@@ -183,19 +183,19 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        `name` = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.mark != null">
         mark = #{record.mark,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=TINYINT},
+        `type` = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.enable != null">
-        enable = #{record.enable,jdbcType=BIT},
+        `enable` = #{record.enable,jdbcType=BIT},
       </if>
       <if test="record.order != null">
-        order = #{record.order,jdbcType=TINYINT},
+        `order` = #{record.order,jdbcType=TINYINT},
       </if>
       <if test="record.creator != null">
         creator = #{record.creator,jdbcType=VARCHAR},
@@ -211,11 +211,11 @@
   <update id="updateByExample" parameterType="map">
     update sys_resource_action
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
       mark = #{record.mark,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=TINYINT},
-      enable = #{record.enable,jdbcType=BIT},
-      order = #{record.order,jdbcType=TINYINT},
+      `type` = #{record.type,jdbcType=TINYINT},
+      `enable` = #{record.enable,jdbcType=BIT},
+      `order` = #{record.order,jdbcType=TINYINT},
       creator = #{record.creator,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -226,19 +226,19 @@
     update sys_resource_action
     <set>
       <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="mark != null">
         mark = #{mark,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
+        `type` = #{type,jdbcType=TINYINT},
       </if>
       <if test="enable != null">
-        enable = #{enable,jdbcType=BIT},
+        `enable` = #{enable,jdbcType=BIT},
       </if>
       <if test="order != null">
-        order = #{order,jdbcType=TINYINT},
+        `order` = #{order,jdbcType=TINYINT},
       </if>
       <if test="creator != null">
         creator = #{creator,jdbcType=VARCHAR},
@@ -251,11 +251,11 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.SysResourceAction">
     update sys_resource_action
-    set name = #{name,jdbcType=VARCHAR},
+    set `name` = #{name,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
-      enable = #{enable,jdbcType=BIT},
-      order = #{order,jdbcType=TINYINT},
+      `type` = #{type,jdbcType=TINYINT},
+      `enable` = #{enable,jdbcType=BIT},
+      `order` = #{order,jdbcType=TINYINT},
       creator = #{creator,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -276,7 +276,7 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_resource_action (name,mark,type,enable,order,creator,create_time) 
+    insert into sys_resource_action (`name`,mark,`type`,`enable`,`order`,creator,create_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
         (#{item.name,jdbcType=VARCHAR},#{item.mark,jdbcType=VARCHAR},#{item.type,jdbcType=TINYINT},#{item.enable,jdbcType=BIT},#{item.order,jdbcType=TINYINT},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 

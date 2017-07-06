@@ -403,6 +403,12 @@
       <version>3.5</version>
     </dependency>
 
+    <!--Reflections工具包,用于通过反射获取类-->
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>0.9.10</version>
+    </dependency>
 
     <!-- Test -->
     <dependency>

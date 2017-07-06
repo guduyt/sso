@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, url, port, enable, creator, create_time
+    id, `name`, url, port, `enable`, creator, create_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysAppExample" resultMap="BaseResultMap">
     select
@@ -102,8 +102,8 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysApp" useGeneratedKeys="true">
-    insert into sys_app (name, url, port, 
-      enable, creator, create_time
+    insert into sys_app (`name`, url, port, 
+      `enable`, creator, create_time
       )
     values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER}, 
       #{enable,jdbcType=BIT}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
@@ -113,7 +113,7 @@
     insert into sys_app
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
-        name,
+        `name`,
       </if>
       <if test="url != null">
         url,
@@ -122,7 +122,7 @@
         port,
       </if>
       <if test="enable != null">
-        enable,
+        `enable`,
       </if>
       <if test="creator != null">
         creator,
@@ -176,7 +176,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        `name` = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.url != null">
         url = #{record.url,jdbcType=VARCHAR},
@@ -185,7 +185,7 @@
         port = #{record.port,jdbcType=INTEGER},
       </if>
       <if test="record.enable != null">
-        enable = #{record.enable,jdbcType=BIT},
+        `enable` = #{record.enable,jdbcType=BIT},
       </if>
       <if test="record.creator != null">
         creator = #{record.creator,jdbcType=VARCHAR},
@@ -201,10 +201,10 @@
   <update id="updateByExample" parameterType="map">
     update sys_app
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       port = #{record.port,jdbcType=INTEGER},
-      enable = #{record.enable,jdbcType=BIT},
+      `enable` = #{record.enable,jdbcType=BIT},
       creator = #{record.creator,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -215,7 +215,7 @@
     update sys_app
     <set>
       <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
@@ -224,7 +224,7 @@
         port = #{port,jdbcType=INTEGER},
       </if>
       <if test="enable != null">
-        enable = #{enable,jdbcType=BIT},
+        `enable` = #{enable,jdbcType=BIT},
       </if>
       <if test="creator != null">
         creator = #{creator,jdbcType=VARCHAR},
@@ -237,10 +237,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.SysApp">
     update sys_app
-    set name = #{name,jdbcType=VARCHAR},
+    set `name` = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       port = #{port,jdbcType=INTEGER},
-      enable = #{enable,jdbcType=BIT},
+      `enable` = #{enable,jdbcType=BIT},
       creator = #{creator,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -261,7 +261,7 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_app (name,url,port,enable,creator,create_time) 
+    insert into sys_app (`name`,url,port,`enable`,creator,create_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
         (#{item.name,jdbcType=VARCHAR},#{item.url,jdbcType=VARCHAR},#{item.port,jdbcType=INTEGER},#{item.enable,jdbcType=BIT},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 

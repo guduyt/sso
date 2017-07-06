@@ -587,72 +587,72 @@ public class SysResourceExample extends BaseExample {
         }
 
         public Criteria andMethodIsNull() {
-            addCriterion("method is null");
+            addCriterion("`method` is null");
             return (Criteria) this;
         }
 
         public Criteria andMethodIsNotNull() {
-            addCriterion("method is not null");
+            addCriterion("`method` is not null");
             return (Criteria) this;
         }
 
         public Criteria andMethodEqualTo(String value) {
-            addCriterion("method =", value, "method");
+            addCriterion("`method` =", value, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodNotEqualTo(String value) {
-            addCriterion("method <>", value, "method");
+            addCriterion("`method` <>", value, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodGreaterThan(String value) {
-            addCriterion("method >", value, "method");
+            addCriterion("`method` >", value, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodGreaterThanOrEqualTo(String value) {
-            addCriterion("method >=", value, "method");
+            addCriterion("`method` >=", value, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodLessThan(String value) {
-            addCriterion("method <", value, "method");
+            addCriterion("`method` <", value, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodLessThanOrEqualTo(String value) {
-            addCriterion("method <=", value, "method");
+            addCriterion("`method` <=", value, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodLike(String value) {
-            addCriterion("method like", value, "method");
+            addCriterion("`method` like", value, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodNotLike(String value) {
-            addCriterion("method not like", value, "method");
+            addCriterion("`method` not like", value, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodIn(List<String> values) {
-            addCriterion("method in", values, "method");
+            addCriterion("`method` in", values, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodNotIn(List<String> values) {
-            addCriterion("method not in", values, "method");
+            addCriterion("`method` not in", values, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodBetween(String value1, String value2) {
-            addCriterion("method between", value1, value2, "method");
+            addCriterion("`method` between", value1, value2, "method");
             return (Criteria) this;
         }
 
         public Criteria andMethodNotBetween(String value1, String value2) {
-            addCriterion("method not between", value1, value2, "method");
+            addCriterion("`method` not between", value1, value2, "method");
             return (Criteria) this;
         }
 
@@ -727,62 +727,62 @@ public class SysResourceExample extends BaseExample {
         }
 
         public Criteria andEnableIsNull() {
-            addCriterion("enable is null");
+            addCriterion("`enable` is null");
             return (Criteria) this;
         }
 
         public Criteria andEnableIsNotNull() {
-            addCriterion("enable is not null");
+            addCriterion("`enable` is not null");
             return (Criteria) this;
         }
 
         public Criteria andEnableEqualTo(Boolean value) {
-            addCriterion("enable =", value, "enable");
+            addCriterion("`enable` =", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotEqualTo(Boolean value) {
-            addCriterion("enable <>", value, "enable");
+            addCriterion("`enable` <>", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableGreaterThan(Boolean value) {
-            addCriterion("enable >", value, "enable");
+            addCriterion("`enable` >", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("enable >=", value, "enable");
+            addCriterion("`enable` >=", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableLessThan(Boolean value) {
-            addCriterion("enable <", value, "enable");
+            addCriterion("`enable` <", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableLessThanOrEqualTo(Boolean value) {
-            addCriterion("enable <=", value, "enable");
+            addCriterion("`enable` <=", value, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableIn(List<Boolean> values) {
-            addCriterion("enable in", values, "enable");
+            addCriterion("`enable` in", values, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotIn(List<Boolean> values) {
-            addCriterion("enable not in", values, "enable");
+            addCriterion("`enable` not in", values, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableBetween(Boolean value1, Boolean value2) {
-            addCriterion("enable between", value1, value2, "enable");
+            addCriterion("`enable` between", value1, value2, "enable");
             return (Criteria) this;
         }
 
         public Criteria andEnableNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("enable not between", value1, value2, "enable");
+            addCriterion("`enable` not between", value1, value2, "enable");
             return (Criteria) this;
         }
 
@@ -1267,7 +1267,7 @@ public class SysResourceExample extends BaseExample {
         }
 
         public Criteria andMethodLikeInsensitive(String value) {
-            addCriterion("upper(method) like", value.toUpperCase(), "method");
+            addCriterion("upper(`method`) like", value.toUpperCase(), "method");
             return (Criteria) this;
         }
 

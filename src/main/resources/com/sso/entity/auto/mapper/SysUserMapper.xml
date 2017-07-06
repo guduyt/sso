@@ -75,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_name, password, mobile, email, enable, is_lock, expire, remark, creator, 
+    id, user_name, `password`, mobile, email, `enable`, is_lock, expire, remark, creator, 
     create_time, editor, edit_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysUserExample" resultMap="BaseResultMap">
@@ -109,8 +109,8 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysUser" useGeneratedKeys="true">
-    insert into sys_user (user_name, password, mobile, 
-      email, enable, is_lock, expire, 
+    insert into sys_user (user_name, `password`, mobile, 
+      email, `enable`, is_lock, expire, 
       remark, creator, create_time, 
       editor, edit_time)
     values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
@@ -125,7 +125,7 @@
         user_name,
       </if>
       <if test="password != null">
-        password,
+        `password`,
       </if>
       <if test="mobile != null">
         mobile,
@@ -134,7 +134,7 @@
         email,
       </if>
       <if test="enable != null">
-        enable,
+        `enable`,
       </if>
       <if test="isLock != null">
         is_lock,
@@ -224,7 +224,7 @@
         user_name = #{record.userName,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+        `password` = #{record.password,jdbcType=VARCHAR},
       </if>
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
@@ -233,7 +233,7 @@
         email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.enable != null">
-        enable = #{record.enable,jdbcType=BIT},
+        `enable` = #{record.enable,jdbcType=BIT},
       </if>
       <if test="record.isLock != null">
         is_lock = #{record.isLock,jdbcType=BIT},
@@ -265,10 +265,10 @@
     update sys_user
     set id = #{record.id,jdbcType=BIGINT},
       user_name = #{record.userName,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
+      `password` = #{record.password,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      enable = #{record.enable,jdbcType=BIT},
+      `enable` = #{record.enable,jdbcType=BIT},
       is_lock = #{record.isLock,jdbcType=BIT},
       expire = #{record.expire,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -287,7 +287,7 @@
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+        `password` = #{password,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
@@ -296,7 +296,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="enable != null">
-        enable = #{enable,jdbcType=BIT},
+        `enable` = #{enable,jdbcType=BIT},
       </if>
       <if test="isLock != null">
         is_lock = #{isLock,jdbcType=BIT},
@@ -325,10 +325,10 @@
   <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.SysUser">
     update sys_user
     set user_name = #{userName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=BIT},
+      `enable` = #{enable,jdbcType=BIT},
       is_lock = #{isLock,jdbcType=BIT},
       expire = #{expire,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
@@ -354,7 +354,7 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_user (user_name,password,mobile,email,enable,is_lock,expire,remark,creator,create_time,editor,edit_time) 
+    insert into sys_user (user_name,`password`,mobile,email,`enable`,is_lock,expire,remark,creator,create_time,editor,edit_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
         (#{item.userName,jdbcType=VARCHAR},#{item.password,jdbcType=VARCHAR},#{item.mobile,jdbcType=VARCHAR},#{item.email,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.isLock,jdbcType=BIT},#{item.expire,jdbcType=TIMESTAMP},#{item.remark,jdbcType=VARCHAR},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP},#{item.editor,jdbcType=VARCHAR},#{item.editTime,jdbcType=TIMESTAMP}) 

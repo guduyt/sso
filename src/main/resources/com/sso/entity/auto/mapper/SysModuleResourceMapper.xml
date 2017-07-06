@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, module_id, resources_id, type, create_time
+    id, module_id, resources_id, `type`, create_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysModuleResourceExample" resultMap="BaseResultMap">
     select
@@ -100,7 +100,7 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysModuleResource" useGeneratedKeys="true">
-    insert into sys_module_resource (module_id, resources_id, type, 
+    insert into sys_module_resource (module_id, resources_id, `type`, 
       create_time)
     values (#{moduleId,jdbcType=INTEGER}, #{resourcesId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP})
@@ -115,7 +115,7 @@
         resources_id,
       </if>
       <if test="type != null">
-        type,
+        `type`,
       </if>
       <if test="createTime != null">
         create_time,
@@ -166,7 +166,7 @@
         resources_id = #{record.resourcesId,jdbcType=INTEGER},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+        `type` = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -181,7 +181,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       module_id = #{record.moduleId,jdbcType=INTEGER},
       resources_id = #{record.resourcesId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
+      `type` = #{record.type,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -197,7 +197,7 @@
         resources_id = #{resourcesId,jdbcType=INTEGER},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+        `type` = #{type,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -209,7 +209,7 @@
     update sys_module_resource
     set module_id = #{moduleId,jdbcType=INTEGER},
       resources_id = #{resourcesId,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -229,7 +229,7 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_module_resource (module_id,resources_id,type,create_time) 
+    insert into sys_module_resource (module_id,resources_id,`type`,create_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
         (#{item.moduleId,jdbcType=INTEGER},#{item.resourcesId,jdbcType=INTEGER},#{item.type,jdbcType=INTEGER},#{item.createTime,jdbcType=TIMESTAMP}) 

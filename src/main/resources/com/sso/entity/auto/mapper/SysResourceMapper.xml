@@ -80,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, resources_name, resource_path, request_path, request_type, java_class, short_method, 
-    method, description, enable, resources_type, parent_id, remark, creator, create_time, 
+    `method`, description, `enable`, resources_type, parent_id, remark, creator, create_time, 
     editor, edit_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysResourceExample" resultMap="BaseResultMap">
@@ -116,7 +116,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysResource" useGeneratedKeys="true">
     insert into sys_resource (resources_name, resource_path, request_path, 
       request_type, java_class, short_method, 
-      method, description, enable, 
+      `method`, description, `enable`, 
       resources_type, parent_id, remark, 
       creator, create_time, editor, 
       edit_time)
@@ -149,13 +149,13 @@
         short_method,
       </if>
       <if test="method != null">
-        method,
+        `method`,
       </if>
       <if test="description != null">
         description,
       </if>
       <if test="enable != null">
-        enable,
+        `enable`,
       </if>
       <if test="resourcesType != null">
         resources_type,
@@ -272,13 +272,13 @@
         short_method = #{record.shortMethod,jdbcType=VARCHAR},
       </if>
       <if test="record.method != null">
-        method = #{record.method,jdbcType=VARCHAR},
+        `method` = #{record.method,jdbcType=VARCHAR},
       </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.enable != null">
-        enable = #{record.enable,jdbcType=BIT},
+        `enable` = #{record.enable,jdbcType=BIT},
       </if>
       <if test="record.resourcesType != null">
         resources_type = #{record.resourcesType,jdbcType=TINYINT},
@@ -315,9 +315,9 @@
       request_type = #{record.requestType,jdbcType=VARCHAR},
       java_class = #{record.javaClass,jdbcType=VARCHAR},
       short_method = #{record.shortMethod,jdbcType=VARCHAR},
-      method = #{record.method,jdbcType=VARCHAR},
+      `method` = #{record.method,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
-      enable = #{record.enable,jdbcType=BIT},
+      `enable` = #{record.enable,jdbcType=BIT},
       resources_type = #{record.resourcesType,jdbcType=TINYINT},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -351,13 +351,13 @@
         short_method = #{shortMethod,jdbcType=VARCHAR},
       </if>
       <if test="method != null">
-        method = #{method,jdbcType=VARCHAR},
+        `method` = #{method,jdbcType=VARCHAR},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="enable != null">
-        enable = #{enable,jdbcType=BIT},
+        `enable` = #{enable,jdbcType=BIT},
       </if>
       <if test="resourcesType != null">
         resources_type = #{resourcesType,jdbcType=TINYINT},
@@ -391,9 +391,9 @@
       request_type = #{requestType,jdbcType=VARCHAR},
       java_class = #{javaClass,jdbcType=VARCHAR},
       short_method = #{shortMethod,jdbcType=VARCHAR},
-      method = #{method,jdbcType=VARCHAR},
+      `method` = #{method,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=BIT},
+      `enable` = #{enable,jdbcType=BIT},
       resources_type = #{resourcesType,jdbcType=TINYINT},
       parent_id = #{parentId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
@@ -419,7 +419,7 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_resource (resources_name,resource_path,request_path,request_type,java_class,short_method,method,description,enable,resources_type,parent_id,remark,creator,create_time,editor,edit_time) 
+    insert into sys_resource (resources_name,resource_path,request_path,request_type,java_class,short_method,`method`,description,`enable`,resources_type,parent_id,remark,creator,create_time,editor,edit_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
         (#{item.resourcesName,jdbcType=VARCHAR},#{item.resourcePath,jdbcType=VARCHAR},#{item.requestPath,jdbcType=VARCHAR},#{item.requestType,jdbcType=VARCHAR},#{item.javaClass,jdbcType=VARCHAR},#{item.shortMethod,jdbcType=VARCHAR},#{item.method,jdbcType=VARCHAR},#{item.description,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.resourcesType,jdbcType=TINYINT},#{item.parentId,jdbcType=INTEGER},#{item.remark,jdbcType=VARCHAR},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP},#{item.editor,jdbcType=VARCHAR},#{item.editTime,jdbcType=TIMESTAMP}) 
