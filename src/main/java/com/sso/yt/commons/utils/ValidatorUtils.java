@@ -228,18 +228,6 @@ public class ValidatorUtils implements Regular {
 
 
     /**
-     * 去除所有空格
-     *
-     * @param str 输入字符串
-     * @return String
-     */
-    public static String removeSpace(String str) {
-        if (isEmpty(str))
-            return str;
-        return str.replaceAll("[\\s/ ]*", "");
-    }
-
-    /**
      * 判断前后是否有空格
      *
      * @param str 输入字符串
@@ -261,6 +249,18 @@ public class ValidatorUtils implements Regular {
         if (isEmpty(str))
             return str;
         return str.trim();
+    }
+
+    /**
+     * 去除所有空格
+     *
+     * @param str 输入字符串
+     * @return String
+     */
+    public static String removeSpace(String str) {
+        if (isEmpty(str))
+            return str;
+        return str.replaceAll("[\\s/ ]*", "");
     }
 
     /**
