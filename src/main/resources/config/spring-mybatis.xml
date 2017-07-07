@@ -60,7 +60,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springfr
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-        <property name="mapperLocations" value="classpath:com/sso/entity/auto/mapper/*.xml,com/sso/entity/manual/*.xml" />
+        <property name="mapperLocations" value="classpath:com/sso/entity/auto/mapper/*.xml,com/sso/entity/manual/mapper/*.xml" />
         <property name="plugins">
              <list>
                  <bean name="getSql" class="com.sso.yt.interceptor.mybatis.SqlInterceptor">
@@ -73,7 +73,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springfr
 
     <!-- spring与mybatis整合配置，扫描所有dao -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.entity.auto.mapper,com.entity.manual.mapper" />
+        <property name="basePackage" value="com.sso.entity.auto.mapper,com.sso.entity.manual.mapper" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
@@ -123,8 +123,8 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springfr
     <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
         <property name="patterns">
 			<list>
-				<value>com.business.service.*</value>
-                <value>com.entity.*.model.*</value>
+				<value>com.sso.business.service.*</value>
+                <value>com.sso.entity.*.model.*</value>
 			</list>
 		</property>
 	</bean>
