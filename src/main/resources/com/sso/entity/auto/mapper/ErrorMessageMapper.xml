@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sso.entity.auto.mapper.ErrorMessageMapper">
+  <resultMap id="BaseResultMap" type="com.sso.entity.auto.model.ErrorMessage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+    <result column="module" jdbcType="INTEGER" property="module" />
+    <result column="error_code" jdbcType="INTEGER" property="errorCode" />
+    <result column="error_message" jdbcType="VARCHAR" property="errorMessage" />
+    <result column="is_display" jdbcType="INTEGER" property="isDisplay" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_time" jdbcType="TIMESTAMP" property="lastTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, module_name, `module`, error_code, error_message, is_display, creator, create_time, 
+    last_time
+  </sql>
+  <select id="selectByExample" parameterType="com.sso.entity.auto.model.ErrorMessageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from error_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from error_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from error_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sso.entity.auto.model.ErrorMessageExample">
+    delete from error_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.ErrorMessage" useGeneratedKeys="true">
+    insert into error_message (module_name, `module`, error_code, 
+      error_message, is_display, creator, 
+      create_time, last_time)
+    values (#{moduleName,jdbcType=VARCHAR}, #{module,jdbcType=INTEGER}, #{errorCode,jdbcType=INTEGER}, 
+      #{errorMessage,jdbcType=VARCHAR}, #{isDisplay,jdbcType=INTEGER}, #{creator,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.ErrorMessage" useGeneratedKeys="true">
+    insert into error_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="moduleName != null">
+        module_name,
+      </if>
+      <if test="module != null">
+        `module`,
+      </if>
+      <if test="errorCode != null">
+        error_code,
+      </if>
+      <if test="errorMessage != null">
+        error_message,
+      </if>
+      <if test="isDisplay != null">
+        is_display,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastTime != null">
+        last_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="moduleName != null">
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null">
+        #{module,jdbcType=INTEGER},
+      </if>
+      <if test="errorCode != null">
+        #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="errorMessage != null">
+        #{errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="isDisplay != null">
+        #{isDisplay,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null">
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sso.entity.auto.model.ErrorMessageExample" resultType="java.lang.Integer">
+    select count(1) from 
+    <if test="distinct">
+      (select  distinct  
+      <include refid="Base_Column_List" />
+          from  error_message
+          <if test="_parameter != null">
+              <include refid="Example_Where_Clause" />
+          </if>) AS c
+    </if>
+    <if test="!distinct">
+              error_message
+        <if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update error_message
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.moduleName != null">
+        module_name = #{record.moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.module != null">
+        `module` = #{record.module,jdbcType=INTEGER},
+      </if>
+      <if test="record.errorCode != null">
+        error_code = #{record.errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.errorMessage != null">
+        error_message = #{record.errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDisplay != null">
+        is_display = #{record.isDisplay,jdbcType=INTEGER},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastTime != null">
+        last_time = #{record.lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update error_message
+    set id = #{record.id,jdbcType=INTEGER},
+      module_name = #{record.moduleName,jdbcType=VARCHAR},
+      `module` = #{record.module,jdbcType=INTEGER},
+      error_code = #{record.errorCode,jdbcType=INTEGER},
+      error_message = #{record.errorMessage,jdbcType=VARCHAR},
+      is_display = #{record.isDisplay,jdbcType=INTEGER},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      last_time = #{record.lastTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sso.entity.auto.model.ErrorMessage">
+    update error_message
+    <set>
+      <if test="moduleName != null">
+        module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null">
+        `module` = #{module,jdbcType=INTEGER},
+      </if>
+      <if test="errorCode != null">
+        error_code = #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="errorMessage != null">
+        error_message = #{errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="isDisplay != null">
+        is_display = #{isDisplay,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null">
+        last_time = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.ErrorMessage">
+    update error_message
+    set module_name = #{moduleName,jdbcType=VARCHAR},
+      `module` = #{module,jdbcType=INTEGER},
+      error_code = #{errorCode,jdbcType=INTEGER},
+      error_message = #{errorMessage,jdbcType=VARCHAR},
+      is_display = #{isDisplay,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_time = #{lastTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectPageByExample" parameterType="com.sso.entity.auto.model.ErrorMessageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+     from error_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+       order by ${orderByClause} 
+    </if>
+    <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
+  </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into error_message (module_name,`module`,error_code,error_message,is_display,creator,create_time,last_time) 
+    values 
+    <foreach collection="list" item="item" index="index" separator="," > 
+        (#{item.moduleName,jdbcType=VARCHAR},#{item.module,jdbcType=INTEGER},#{item.errorCode,jdbcType=INTEGER},#{item.errorMessage,jdbcType=VARCHAR},#{item.isDisplay,jdbcType=INTEGER},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP},#{item.lastTime,jdbcType=TIMESTAMP}) 
+   </foreach>
+  </insert>
+</mapper>

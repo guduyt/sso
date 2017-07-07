@@ -1,7 +1,6 @@
 package com.sso.yt.aop.aspect;
 
-import java.util.Map;
-
+import com.yt.mybatis.model.BaseModel;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,7 +10,7 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.stereotype.Component;
 
-import com.yt.mybatis.model.BaseModel;
+import java.util.Map;
 
 /**
  * Created by yt on 2017-1-24.
@@ -27,7 +26,7 @@ public class DaoAspect {
     private static final String EDITOR = "editor";
 
     private static final String CREATE_TIME = "createTime";
-    private static final String LAST_TIME = "last_time";
+    private static final String LAST_TIME = "lastTime";
 
     private static final String DEFAULT = "admin";
 
@@ -57,7 +56,7 @@ public class DaoAspect {
     }
 
 
-    @Pointcut("execution(* com.yt.mybatis.model.BaseMapper.update*(..))")
+    @Pointcut("execution(* com.yt.mybatis.model.BaseMapper.update*(..)) || execution(* com.yt.mybatis.model.BasePKMapper.update*(..))")
     public void updatePointcut() {
         //声明更新操作拦截点
     }

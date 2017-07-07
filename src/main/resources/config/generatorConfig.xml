@@ -291,5 +291,9 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
             <ignoreColumn column="last_time"></ignoreColumn>
         </table>
+        <table tableName="error_message">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+           <!-- <ignoreColumn column="last_time"></ignoreColumn>-->
+        </table>
     </context>
 </generatorConfiguration> 
