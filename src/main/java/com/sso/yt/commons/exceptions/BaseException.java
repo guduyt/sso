@@ -1,5 +1,6 @@
 package com.sso.yt.commons.exceptions;
 
+import com.sso.yt.commons.utils.Assert;
 import com.sso.yt.commons.utils.MessageUtils;
 
 /**
@@ -32,6 +33,8 @@ public class BaseException extends RuntimeException {
 
     public BaseException(int code, String message) {
         super(MessageUtils.generate(code, message));
+        if (!Assert.map.containsKey(code))
+            Assert.map.put(code, message);
         this.code = code;
     }
 
@@ -42,6 +45,8 @@ public class BaseException extends RuntimeException {
 
     public BaseException(int code, String message, Throwable cause) {
         super(MessageUtils.generate(code, message), cause);
+        if (!Assert.map.containsKey(code))
+            Assert.map.put(code, message);
         this.code = code;
     }
 
