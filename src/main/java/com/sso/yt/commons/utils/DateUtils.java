@@ -1,6 +1,8 @@
 package com.sso.yt.commons.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -9,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sso.yt.commons.DateFormat;
-import com.sso.yt.commons.exceptions.CustomException;
 
 /**
  * Utils
@@ -44,62 +45,110 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
         return false;
     }
 
-
     /**
-     *判断字符串是否是时间
-     * @param s
+     * 获取当前时间的默认时间格式 yyyy-MM-dd HH:mm:ss
      * @return
      */
-    public static Boolean isDate(String s){
-        if( StringUtils.isNotEmpty(s)){
-            Pattern p=Pattern.compile("^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\.]?((((0?[13578])|(1[02]))[\\-\\/\\.]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\.]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\.]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\.]?((((0?[13578])|(1[02]))[\\-\\/\\.]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\.]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\.]?((0?[1-9])|(1[0-9])|(2[0-8]))))))(\\s(((0?[0-9])|([1-2][0-3]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9])))))?$", Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
-            return p.matcher(s).matches();
-        }
-        return false;
+    public static String defaultDateTimeNow(){
+        return dateFormat(new Date(),DateFormat_DEFAULT);
+    }
+
+    /**
+     *  获取当前日期的默认日期格式，yyyy-MM-dd
+     * @return
+     */
+    public static String defaultDateNow(){
+        return dateFormat(new Date(),DateFormat_DATE_DEFAULT);
+    }
+
+    /**
+     *  获取当前时间的默认日期格式，HH:mm:ss
+     * @return
+     */
+    public static String defaultTimeNow(){
+        return dateFormat(new Date(),DateFormat_TIME);
     }
 
 
     /**
-     * 日期转换为对应格式字符串
-     * @param data
-     * @param formatType
+     * 获取当前时间的默认时间格式 yyyy-MM-dd HH:mm:ss
+     * @param date  日期
      * @return
      */
-    public static String dateToString(Date data, String formatType) {
-        try {
-            return new SimpleDateFormat(formatType).format(data);
-        } catch (Exception ex){
+    public static String defaultDateTime( Date date) {
+        return dateFormat(date,DateFormat_DEFAULT);
+    }
 
-            throw  new CustomException(50011,"时间类型转换字符串失败！",ex);
-        }
+    /**
+     * 获取当前时间的默认时间格式 yyyy-MM-dd
+     * @param date  日期
+     * @return
+     */
+    public static String defaultDate( Date date) {
+        return dateFormat(date,DateFormat_DATE_DEFAULT);
+    }
+
+    /**
+     * 获取当前时间的默认时间格式 HH:mm:ss
+     * @param date  日期
+     * @return
+     */
+    public static String defaultTime( Date date) {
+        return  dateFormat(date,DateFormat_TIME);
+    }
+
+    /**
+     * 日期转换为对应格式字符串
+     * @param date  日期
+     * @param dateFormat 日期应格
+     * @return
+     */
+    public static String dateFormat( Date date,String dateFormat) {
+        java.text.DateFormat sdf = DateFormatPool.getDateFormat(dateFormat);
+        return sdf.format(date);
     }
 
     /**
      * 字符串转换为对应格式日期
-     * @param str
-     * @param formatType
+     * @param str 日期字符串
+     * @param dateFormat  日期应格
      * @return
      */
-    public static Date stringToDate(String str, String formatType){
+    public static Date toDateForFormat(String str, String dateFormat){
         Date date=null;
         try {
-            SimpleDateFormat dateFormat=new SimpleDateFormat(formatType);
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat(dateFormat);
             if(isNotEmpty(str)){
-                date=dateFormat.parse(str);
+                date=simpleDateFormat.parse(str);
             }
         } catch (Exception ex){
-            throw  new CustomException(50012,"字符串转换指定格式的时间类型失败！",ex);
+            LOGGER.error("转化日期错误[输入：" + str + "],格式["+dateFormat+"]", ex);
         }
 
         return date;
     }
 
     /**
-     * 将字符串按照默认格式转换为时间类型，默认格式"yyyy-MM-dd HH:mm:ss"
-     * @param str
+     *  枚举基本日期格式，将字符串转化日期或者时间
+     * @param str  日期字符串
      * @return
      */
-    public static Date stringToDate(String str){
+    public static Date toDateForFormat(String str) {
+        try {
+            String[] parsePatterns = { DateFormat_DEFAULT, DateFormat_ONE,DateFormat_TWO,DateFormat_THREE,DateFormat_DATE_DEFAULT,DateFormat__DATE_ONE,DateFormat_DATE_TWO,DateFormat_DATE_THREE,DateFormat_TIME };
+            return parseDate(str, parsePatterns);
+        } catch (ParseException ex) {
+            LOGGER.error("转化日期错误[输入：" + str + "]", ex);
+        }
+        return null;
+    }
+
+    /**
+     * 将字符串按照默认格式转换为时间类型，默认格式"yyyy-MM-dd HH:mm:ss"
+     * @param str 日期字符串
+     * @return
+     */
+    public static Date toDateForDefault(String str){
         Date date=null;
         try {
             String  format=DateFormat_DEFAULT;
@@ -107,21 +156,20 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
             if(isNotEmpty(str)){
                 dateFormat.setLenient(false);
                 date=dateFormat.parse(str);
-
             }
         } catch (Exception ex){
-            throw  new CustomException(50013,"字符串转换默认格式的时间类型失败！",ex);
+            LOGGER.error("转换默认格式的时间类型错误[输入：" + str + "]",ex);
         }
 
         return date;
     }
 
     /**
-     * 根据字符串符合日期格式，转换为对应格式时间类型
-     * @param str
+     * 根据字符串符合日期格式，自适应转换为对应格式时间类型
+     * @param str 日期字符串
      * @return
      */
-    public static Date stringToDateForFormat(String str){
+    public static Date toDateAutoFormat(String str){
         Date date=null;
         try {
             String  format=getDateFormat(str)  ;
@@ -129,10 +177,9 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
             if(isNotEmpty(str)){
                 dateFormat.setLenient(false);
                 date=dateFormat.parse(str);
-
             }
         } catch (Exception ex){
-            throw  new CustomException(50014,"字符串转换时间类型失败！",ex);
+            LOGGER.error("自适应转换时间类型错误[输入：" + str + "]",ex);
         }
 
         return date;
@@ -140,52 +187,113 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
 
     /**
      *获得字符串符合的日期格式
-     * @param s
+     * @param str  日期字符串
      * @return
      */
-    public static String getDateFormat(String s){
+    public static String getDateFormat(String str){
         String  format= DateUtils.DateFormat_DEFAULT;
         Pattern p=Pattern.compile("^\\d{4}(\\-)\\d{1,2}\\1\\d{1,2}(\\s(((0?[0-9])|([1-2][0-3]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9])))))?$");
-        if(p.matcher(s).matches()) {
+        if(p.matcher(str).matches()) {
             p=Pattern.compile("^\\d{4}(\\-)\\d{1,2}\\1\\d{1,2}$");
-            if(p.matcher(s).matches()){
-                format= DateUtils.DateFormat_DATE_DEFAULT;
+            if(p.matcher(str).matches()){
+               return DateUtils.DateFormat_DATE_DEFAULT;
             } else {
-                format= DateUtils.DateFormat_DEFAULT;
+                return DateUtils.DateFormat_DEFAULT;
             }
         }
         p=Pattern.compile("^\\d{4}(\\/)\\d{1,2}\\1\\d{1,2}(\\s(((0?[0-9])|([1-2][0-3]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9])))))?$");
-        if(p.matcher(s).matches()){
+        if(p.matcher(str).matches()){
             p=Pattern.compile("^\\d{4}(\\/)\\d{1,2}\\1\\d{1,2}$");
-            if(p.matcher(s).matches()){
-                format= DateUtils.DateFormat__DATE_ONE;
+            if(p.matcher(str).matches()){
+                return DateUtils.DateFormat__DATE_ONE;
             } else {
-                format= DateUtils.DateFormat_ONE;
+                return DateUtils.DateFormat_ONE;
             }
 
         }
         p=Pattern.compile("^\\d{4}(\\.)\\d{1,2}\\1\\d{1,2}(\\s(((0?[0-9])|([1-2][0-3]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9])))))?$");
-        if(p.matcher(s).matches()){
+        if(p.matcher(str).matches()){
             p=Pattern.compile("^\\d{4}(\\.)\\d{1,2}\\1\\d{1,2}$");
-            if(p.matcher(s).matches()){
-                format= DateUtils.DateFormat_DATE_TWO;
+            if(p.matcher(str).matches()){
+                return DateUtils.DateFormat_DATE_TWO;
             } else {
-                format= DateUtils.DateFormat_TWO;
+                return DateUtils.DateFormat_TWO;
             }
 
         }
         p=Pattern.compile("^\\d{4}\\d{1,2}\\d{1,2}((((0?[0-9])|([1-2][0-3]))([0-5]?[0-9])((\\s)|(([0-5]?[0-9])))))?$");
-        if(p.matcher(s).matches()){
+        if(p.matcher(str).matches()){
             p=Pattern.compile("^\\d{4}\\d{1,2}\\d{1,2}$");
-            if(p.matcher(s).matches()){
-                format= DateUtils.DateFormat_DATE_THREE;
+            if(p.matcher(str).matches()){
+                return DateUtils.DateFormat_DATE_THREE;
             } else {
-                format= DateUtils.DateFormat_THREE ;
+                return DateUtils.DateFormat_THREE ;
             }
 
         }
-
         return format;
+    }
+
+    /**
+     *  获取指定date所在月份的第一天，默认是0点0份0秒0毫秒
+     * @param date  日期
+     * @return
+     */
+    public static Date getFirstDateTimeForMonth(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.DATE, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
+     * 获取指定date所在月份的最后一天，默认是23点59份59秒999毫秒
+     * @param date  日期
+     * @return
+     */
+    public static Date getLastDateTimeForMonth(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        return cal.getTime();
+    }
+
+    /**
+     * 输入2017-03-03 11:22:33 会得到2017-03-03 00:00:00.000
+     * @param date  日期
+     * @return
+     */
+    public static Date getDateForZero(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
+     * 输入2017-03-03 11:22:33 会得到2017-03-03 23:59:59.999
+     * @param date  日期
+     * @return
+     */
+    public static Date getDateFor59(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        return cal.getTime();
     }
 
 }
