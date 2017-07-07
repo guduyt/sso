@@ -1,10 +1,10 @@
 package com.sso.business.vo;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * DemoVO
@@ -15,11 +15,11 @@ import java.util.Date;
  */
 public class DemoVO implements Serializable {
     private int id;
-    @Length(min = 1,max = 5,message = "名称不能太长",groups = Insert.class)
+    @Length(min = 1,max = 5,message = "100040043:名称不能太长",groups = Insert.class)
     private String name;
     private Date date;
 
-    @Range(min = -1,max = 8,message = "价格必须在区间{min}-{max}" ,groups = Insert.class)
+    @Range(min = -1,max = 8,message = "100040044:价格必须在区间{min}-{max}" ,groups = {Insert.class,Update.class})
     private double price;
 
     public int getId() {

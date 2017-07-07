@@ -1,7 +1,15 @@
 package com.sso.yt.commons.utils;
 
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import com.sso.yt.commons.Regular;
+import com.sso.yt.commons.exceptions.ValidateException;
 
 /**
  * Created by yt on 2016-10-19.
@@ -20,6 +28,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isNumber(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(DIGITAL);
     }
 
@@ -30,6 +40,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isInteger(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(INTEGER);
     }
 
@@ -40,6 +52,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isDate(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(DATE);
     }
 
@@ -50,6 +64,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isStrictDate(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(STRICT_DATE);
     }
 
@@ -60,6 +76,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isIpv4(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(IPV4);
     }
 
@@ -70,6 +88,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isOnlyNumberSp(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(NUMBER);
     }
 
@@ -80,6 +100,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isOnlyLetterSp(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(LETTER);
     }
 
@@ -90,6 +112,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isOnlyLetterNumber(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(LETTER_NUMBER);
     }
 
@@ -100,6 +124,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isEmail(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(EMAIL);
     }
 
@@ -110,6 +136,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isPhone(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(PHONE);
     }
 
@@ -121,6 +149,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isUrl(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(URL);
     }
 
@@ -131,6 +161,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isChinese(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(CHINESE);
     }
     
@@ -141,6 +173,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isUsername(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(USERNAME);
     }
 
@@ -151,6 +185,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isQQ(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(QQ);
     }
 
@@ -161,6 +197,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isIDCard(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(IDCARD);
     }
 
@@ -171,6 +209,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isPostCode(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(POSTCODE);
     }
 
@@ -181,6 +221,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isSpace(String str) {
+        if (isEmpty(str))
+            return false;
         return !str.matches(SPACE);
     }
 
@@ -192,6 +234,8 @@ public class ValidatorUtils implements Regular {
      * @return String
      */
     public static String removeSpace(String str) {
+        if (isEmpty(str))
+            return str;
         return str.replaceAll("[\\s/ ]*", "");
     }
 
@@ -202,6 +246,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isQHSpace(String str) {
+        if (isEmpty(str))
+            return false;
         return str.matches(QHSPACE);
     }
 
@@ -212,6 +258,8 @@ public class ValidatorUtils implements Regular {
      * @return String
      */
     public static String removeQHOSpace(String str) {
+        if (isEmpty(str))
+            return str;
         return str.trim();
     }
 
@@ -222,6 +270,8 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean isSpLetter(String str) {
+        if (isEmpty(str))
+            return false;
         return !str.matches("^[\\w\u4e00-\u9fa5]+$");
     }
 
@@ -233,7 +283,50 @@ public class ValidatorUtils implements Regular {
      * @return Boolean
      */
     public static boolean matches(String str, String regex) {
+        if (isEmpty(str))
+            return false;
         return str.matches(regex);
+    }
+
+    /**
+     * 针对实体校验
+     * @param o 校验的实体
+     */
+    public static boolean validate(Object o) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(o);
+        constraintViolations.forEach(constraintViolation -> {
+            throw new ValidateException(Integer.parseInt(constraintViolation.getMessage()));
+        });
+        return true;
+    }
+
+    /**
+     * 针对实体校验
+     * @param o 校验的实体
+     * @param groups 校验的分组
+     */
+    public static boolean validate(Object o, Class<?>... groups) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(o, groups);
+        constraintViolations.forEach(constraintViolation -> {
+            throw new ValidateException(Integer.parseInt(constraintViolation.getMessage()));
+        });
+        return true;
+    }
+
+    public static boolean isMonth(String month) {
+        if (isEmpty(month))
+            return false;
+        return month.matches("(19[7-9][0-9]|20[0-9][0-9])-(0[1-9]|1[012])");
+    }
+
+    private static boolean isEmpty(String str){
+         if(null==str || str.length()==0)
+             return true;
+        return false;
     }
 
 }

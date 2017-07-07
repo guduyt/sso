@@ -1,27 +1,29 @@
 package com.sso.yt.interceptor.exception;
 
-import com.alibaba.fastjson.JSON;
-import com.sso.yt.commons.exceptions.BaseException;
-import com.sso.yt.commons.utils.LogUtils;
-import com.sso.yt.commons.utils.ResponseUtils;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
 import org.springframework.dao.DataAccessException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
+import com.alibaba.fastjson.JSON;
+import com.sso.yt.commons.exceptions.BaseException;
+import com.sso.yt.commons.utils.ResponseUtils;
 
 /**
  * ExceptionInterceptor
@@ -31,26 +33,43 @@ import java.util.Map;
  * @date 2016/8/26 9:29
  */
 @ControllerAdvice
-public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver {
+public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver implements Ordered {
 
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final String defaultMessage="应用程序内部未知错误,请联系开发工程师！";
     private int code = -1;
-    private String message = "未知错误,请联系工程师！";
+    private String message;
 
     @Override
-    protected ModelAndView doResolveHandlerMethodException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HandlerMethod handlerMethod, Exception e) {
+    protected ModelAndView doResolveHandlerMethodException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HandlerMethod handlerMethod, Exception ex) {
         httpServletResponse.setStatus(500);
-        Class exClass = e.getClass();
+        Class exClass = ex.getClass();
 
         //如果不是自定义错误或者方法的参数错误，写入错误日志
         if (!ClassUtils.isAssignable(exClass, IllegalArgumentException.class))
-            LogUtils.LOGGER.error(e.getMessage(), e);
+            logger.error(ex.getMessage(), ex);
 
         if (ClassUtils.isAssignable(exClass, BaseException.class)) { //自定义异常
-            code = ((BaseException) e).getCode();
-            message = e.getMessage();
+            code = ((BaseException) ex).getCode();
+            message = ex.getMessage();
 
-        } else if (ClassUtils.isAssignable(exClass, IllegalArgumentException.class)) {//方法的参数错误
-            message = e.getMessage();
+        } else if(ClassUtils.isAssignable(exClass, MethodArgumentNotValidException.class)){ //参数校验错误
+            message="参数校验错误！";
+            String msg = getMessageFromValidException((MethodArgumentNotValidException) ex);
+            if (StringUtils.isNotEmpty(msg)) {
+                if (msg.indexOf(":") != -1) {
+                 String intCode= StringUtils.substringBefore(msg,":");
+                    if(StringUtils.isNumeric(intCode))
+                        code= Integer.valueOf(intCode);
+                 message=StringUtils.substringAfter(msg,":");
+                }else {
+                    if(StringUtils.isNumeric(msg))
+                        code= Integer.valueOf(msg);
+                }
+            }
+
+        }else if (ClassUtils.isAssignable(exClass, IllegalArgumentException.class)) {//方法的参数错误
+            message = ex.getMessage();
 
         } else if (ClassUtils.isAssignable(exClass, NullPointerException.class) || ClassUtils.isAssignable(exClass, ArrayIndexOutOfBoundsException.class)) { //未经初始化的对象
             message = "访问数据失败！";
@@ -66,24 +85,10 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
 
         } else {
 
-            message = "应用程序内部未知错误,请联系工程师！";
+            message = defaultMessage;
         }
 
         return this.handleResponse(httpServletRequest, httpServletResponse, handlerMethod, code, message);
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ModelAndView handleMethodArgumentNotValidException(
-            MethodArgumentNotValidException validationException, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HandlerMethod handlerMethod) {
-        httpServletResponse.setStatus(400);
-        BindingResult bindingResult = validationException.getBindingResult();
-        if (bindingResult.hasErrors()) {
-            FieldError fieldError = bindingResult.getFieldErrors().get(0);
-            message = fieldError.getDefaultMessage();
-            code = 9;
-        }
-        return this.handleResponse(httpServletRequest, httpServletResponse, handlerMethod, code, message);
-
     }
 
     private ModelAndView handleResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HandlerMethod handlerMethod, int code, String message) {
@@ -114,5 +119,18 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
         if (request.getHeader("accept").contains("application/json"))
             return true;
         return StringUtils.isNotBlank(request.getHeader("X-Requested-With"));
+    }
+
+    private String getMessageFromValidException(MethodArgumentNotValidException methodException) {
+        methodException.getParameter();
+        for (ObjectError error : methodException.getBindingResult().getAllErrors()) {
+            return error.getDefaultMessage();
+        }
+        return "";
+    }
+
+    @Override
+    public int getOrder() {
+        return 0;
     }
 }

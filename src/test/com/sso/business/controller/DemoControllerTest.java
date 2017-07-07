@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.alibaba.fastjson.JSON;
+import com.sso.business.vo.DemoVO;
+
 /**
  * Created by yt on 2017-7-6.
  */
@@ -31,6 +34,8 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration(value = "src/main/webapp")
 @Profile("dev")
 public class DemoControllerTest {
+
+
 	@Autowired
 	private WebApplicationContext wac;
 	private MockMvc mockMvc;
@@ -50,5 +55,23 @@ public class DemoControllerTest {
 				.andReturn();
 		Assert.assertTrue(true);
 	}
+
+	@Test
+	public void updatePut() throws Exception {
+		DemoVO demoVO=new DemoVO();
+		demoVO.setName("demo");
+		demoVO.setPrice(11);
+		MvcResult mvcResult=mockMvc.perform(MockMvcRequestBuilders.put("/demo")
+				.contentType(MediaType.APPLICATION_JSON)
+				.characterEncoding("utf-8")
+				.content(JSON.toJSONString(demoVO))
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is4xxClientError())
+				.andDo(MockMvcResultHandlers.print())
+				.andReturn();
+		Assert.assertTrue(true);
+	}
+
+
 
 }
