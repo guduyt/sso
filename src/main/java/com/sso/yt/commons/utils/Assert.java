@@ -1,17 +1,18 @@
 package com.sso.yt.commons.utils;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.sso.yt.commons.constants.ErrorCode;
 import com.sso.yt.commons.exceptions.ValidateException;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yt on 2017-7-7.
  */
 public class Assert {
-	public static final String DEFAULT_MESSAGE = "target can't be null";
-	public static HashMap<Integer, String> map = new HashMap<>();
+	private static final String DEFAULT_MESSAGE = "target can't be null";
+	public static final Map<Integer, String> map = new HashMap<>();
 
 	private Assert() {
 	}
@@ -36,8 +37,7 @@ public class Assert {
 	public static void notEmpty(Object obj, int code, String error) {
 		if (obj == null)
 			error(code, error);
-		if (obj instanceof List) {
-			if (((List) obj).isEmpty())
+		if (obj instanceof List && ((List) obj).isEmpty()) {
 				error(code, error);
 		}
 		if (obj instanceof String && ((String) obj).length() == 0) {
@@ -80,16 +80,16 @@ public class Assert {
 	}
 
 	public static void isTrue(boolean flag, String error) {
-		isTrue(flag, ErrorCode.DEFAULT, error == null ? "not true" : error);
+		isTrue(flag, ErrorCode.DEFAULT, error == null ? DEFAULT_MESSAGE : error);
 	}
 
 	public static void isTrue(boolean flag, int code, String error) {
 		if (!flag)
-			error(code, error == null ? "not true" : error);
+			error(code, error == null ? DEFAULT_MESSAGE : error);
 	}
 
 	public static void isFalse(boolean flag, int code, String error) {
 		if (flag)
-			error(code, error == null ? "not true" : error);
+			error(code, error == null ? DEFAULT_MESSAGE : error);
 	}
 }

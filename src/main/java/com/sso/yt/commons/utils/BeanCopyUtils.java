@@ -1,10 +1,11 @@
 package com.sso.yt.commons.utils;
 
 
+import com.sso.yt.commons.constants.ErrorCode;
+import com.sso.yt.commons.exceptions.BusinessException;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sso.yt.commons.exceptions.BusinessException;
 
 /**
  * Created by yt on 2017-1-23.
@@ -20,8 +21,8 @@ public class BeanCopyUtils extends org.springframework.beans.BeanUtils {
      * @param target 目标对象
      */
     public static void copyProperties(Object source, Object target) {
-       /* Assert.notNull(source, 110001007, "源对象不能为空");
-        Assert.notNull(source, 110001008, "目标对象不能为空");*/
+        Assert.notNull(source, 110001007, "源对象不能为空");
+        Assert.notNull(source, 110001008, "目标对象不能为空");
         try {
             org.springframework.beans.BeanUtils.copyProperties(source, target);
         } catch (Exception ex) {
@@ -38,7 +39,7 @@ public class BeanCopyUtils extends org.springframework.beans.BeanUtils {
      * @return
      */
     public static <S, T> List<T> copyArrayList(List<S> source, Class<T> targetClass) {
-       /* Assert.notNull(targetClass, 110001009, "目标对象类型不能为空");*/
+        Assert.notNull(targetClass, ErrorCode.CODE_1000002, "目标对象类型不能为空");
         List<T> list = new ArrayList<T>();
         if (source == null || source.isEmpty())
             return list;
@@ -54,7 +55,7 @@ public class BeanCopyUtils extends org.springframework.beans.BeanUtils {
             }
             return list;
         } catch (Exception ex) {
-            throw new BusinessException(110001005, "数据对象属性类型转换错误", ex);
+            throw new BusinessException(ErrorCode.CODE_1000003, "数据对象属性类型转换错误", ex);
         }
     }
 }

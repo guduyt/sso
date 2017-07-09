@@ -1,8 +1,8 @@
 package com.sso.entity.manual.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.SpringSecurityCoreVersion;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,9 +12,9 @@ import java.util.List;
  * @version 1.0.0
  * @date 2017/7/5 21:50
  */
-public class SecurityResource {
-    private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
-    
+public class SecurityResource implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Integer id;
 
     private String resourcePath;

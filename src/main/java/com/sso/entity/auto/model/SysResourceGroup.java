@@ -22,6 +22,12 @@ public class SysResourceGroup extends BaseModel implements Serializable {
     private Integer actionId;
 
     /**
+    * 资源标识
+    */
+    @Column(name="mark")
+    private String mark;
+
+    /**
     * 启用标志
     */
     @Column(name="enable")
@@ -55,6 +61,14 @@ public class SysResourceGroup extends BaseModel implements Serializable {
 
     public void setActionId(Integer actionId) {
         this.actionId = actionId;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark == null ? null : mark.trim();
     }
 
     public Boolean getEnable() {

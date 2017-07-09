@@ -28,12 +28,6 @@ public class SysModuleResource extends BaseModel implements Serializable {
     private Integer resourcesId;
 
     /**
-    * 1.细粒度资源，2资源组
-    */
-    @Column(name="type")
-    private Integer type;
-
-    /**
     * 创建时间
     */
     @Column(name="create_time")
@@ -63,14 +57,6 @@ public class SysModuleResource extends BaseModel implements Serializable {
 
     public void setResourcesId(Integer resourcesId) {
         this.resourcesId = resourcesId;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     public Date getCreateTime() {

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.sso.entity.auto.model.SysResourceGroup">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="action_id" jdbcType="INTEGER" property="actionId" />
+    <result column="mark" jdbcType="VARCHAR" property="mark" />
     <result column="enable" jdbcType="BIT" property="enable" />
     <result column="creator" jdbcType="VARCHAR" property="creator" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, action_id, `enable`, creator, create_time
+    id, action_id, mark, `enable`, creator, create_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysResourceGroupExample" resultMap="BaseResultMap">
     select
@@ -100,16 +101,19 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysResourceGroup" useGeneratedKeys="true">
-    insert into sys_resource_group (action_id, `enable`, creator, 
-      create_time)
-    values (#{actionId,jdbcType=INTEGER}, #{enable,jdbcType=BIT}, #{creator,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into sys_resource_group (action_id, mark, `enable`, 
+      creator, create_time)
+    values (#{actionId,jdbcType=INTEGER}, #{mark,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
+      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysResourceGroup" useGeneratedKeys="true">
     insert into sys_resource_group
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="actionId != null">
         action_id,
+      </if>
+      <if test="mark != null">
+        mark,
       </if>
       <if test="enable != null">
         `enable`,
@@ -124,6 +128,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="actionId != null">
         #{actionId,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null">
+        #{mark,jdbcType=VARCHAR},
       </if>
       <if test="enable != null">
         #{enable,jdbcType=BIT},
@@ -162,6 +169,9 @@
       <if test="record.actionId != null">
         action_id = #{record.actionId,jdbcType=INTEGER},
       </if>
+      <if test="record.mark != null">
+        mark = #{record.mark,jdbcType=VARCHAR},
+      </if>
       <if test="record.enable != null">
         `enable` = #{record.enable,jdbcType=BIT},
       </if>
@@ -180,6 +190,7 @@
     update sys_resource_group
     set id = #{record.id,jdbcType=INTEGER},
       action_id = #{record.actionId,jdbcType=INTEGER},
+      mark = #{record.mark,jdbcType=VARCHAR},
       `enable` = #{record.enable,jdbcType=BIT},
       creator = #{record.creator,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
@@ -192,6 +203,9 @@
     <set>
       <if test="actionId != null">
         action_id = #{actionId,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null">
+        mark = #{mark,jdbcType=VARCHAR},
       </if>
       <if test="enable != null">
         `enable` = #{enable,jdbcType=BIT},
@@ -208,6 +222,7 @@
   <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.SysResourceGroup">
     update sys_resource_group
     set action_id = #{actionId,jdbcType=INTEGER},
+      mark = #{mark,jdbcType=VARCHAR},
       `enable` = #{enable,jdbcType=BIT},
       creator = #{creator,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
@@ -229,10 +244,10 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_resource_group (action_id,`enable`,creator,create_time) 
+    insert into sys_resource_group (action_id,mark,`enable`,creator,create_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
-        (#{item.actionId,jdbcType=INTEGER},#{item.enable,jdbcType=BIT},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 
+        (#{item.actionId,jdbcType=INTEGER},#{item.mark,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 
    </foreach>
   </insert>
 </mapper>

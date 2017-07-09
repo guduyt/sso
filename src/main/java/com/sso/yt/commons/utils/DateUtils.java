@@ -1,16 +1,15 @@
 package com.sso.yt.commons.utils;
 
+import com.sso.yt.commons.DateFormat;
+import com.sso.yt.commons.constants.ErrorCode;
+import com.sso.yt.commons.exceptions.BusinessException;
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sso.yt.commons.DateFormat;
 
 /**
  * Utils
@@ -20,9 +19,6 @@ import com.sso.yt.commons.DateFormat;
  * @date 2016/5/27 16:44
  */
 public class DateUtils extends org.apache.commons.lang3.time.DateUtils implements DateFormat {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DateUtils.class);
-
     /**
      * 判断字符串是否是空字符串
      * @param s
@@ -122,7 +118,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
                 date=simpleDateFormat.parse(str);
             }
         } catch (Exception ex){
-            LOGGER.error("转化日期错误[输入：" + str + "],格式["+dateFormat+"]", ex);
+            throw new BusinessException(ErrorCode.CODE_1000011,"转化日期错误[输入：" + str + "],格式["+dateFormat+"]",ex);
         }
 
         return date;
@@ -138,9 +134,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
             String[] parsePatterns = { DateFormat_DEFAULT, DateFormat_ONE,DateFormat_TWO,DateFormat_THREE,DateFormat_DATE_DEFAULT,DateFormat__DATE_ONE,DateFormat_DATE_TWO,DateFormat_DATE_THREE,DateFormat_TIME };
             return parseDate(str, parsePatterns);
         } catch (ParseException ex) {
-            LOGGER.error("转化日期错误[输入：" + str + "]", ex);
+            throw new BusinessException(ErrorCode.CODE_1000012,"转化日期错误[输入：" + str + "]",ex);
         }
-        return null;
     }
 
     /**
@@ -158,7 +153,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
                 date=dateFormat.parse(str);
             }
         } catch (Exception ex){
-            LOGGER.error("转换默认格式的时间类型错误[输入：" + str + "]",ex);
+            throw new BusinessException(ErrorCode.CODE_1000013,"转换默认格式的时间类型错误[输入：" + str + "]",ex);
         }
 
         return date;
@@ -179,7 +174,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
                 date=dateFormat.parse(str);
             }
         } catch (Exception ex){
-            LOGGER.error("自适应转换时间类型错误[输入：" + str + "]",ex);
+            throw new BusinessException(ErrorCode.CODE_1000014,"自适应转换时间类型错误[输入：" + str + "]",ex);
         }
 
         return date;

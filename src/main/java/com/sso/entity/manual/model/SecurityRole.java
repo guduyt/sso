@@ -2,6 +2,8 @@ package com.sso.entity.manual.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
+
 /**
  * SecurityRole
  *
@@ -9,13 +11,11 @@ import org.springframework.security.core.GrantedAuthority;
  * @version 1.0.0
  * @date 2017/7/5 21:49
  */
-public class SecurityRole implements GrantedAuthority {
+public class SecurityRole implements GrantedAuthority ,Serializable {
     private Integer id;
 
     private String roleName;
-
-    private Boolean enable;
-
+    
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -32,14 +32,6 @@ public class SecurityRole implements GrantedAuthority {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName == null ? null : roleName.trim();
-    }
-
-    public Boolean getEnable() {
-        return enable;
-    }
-
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
     }
 
     @Override

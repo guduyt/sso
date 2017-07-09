@@ -226,6 +226,76 @@ public class SysResourceGroupExample extends BaseExample {
             return (Criteria) this;
         }
 
+        public Criteria andMarkIsNull() {
+            addCriterion("mark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkIsNotNull() {
+            addCriterion("mark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkEqualTo(String value) {
+            addCriterion("mark =", value, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkNotEqualTo(String value) {
+            addCriterion("mark <>", value, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkGreaterThan(String value) {
+            addCriterion("mark >", value, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkGreaterThanOrEqualTo(String value) {
+            addCriterion("mark >=", value, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkLessThan(String value) {
+            addCriterion("mark <", value, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkLessThanOrEqualTo(String value) {
+            addCriterion("mark <=", value, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkLike(String value) {
+            addCriterion("mark like", value, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkNotLike(String value) {
+            addCriterion("mark not like", value, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkIn(List<String> values) {
+            addCriterion("mark in", values, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkNotIn(List<String> values) {
+            addCriterion("mark not in", values, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkBetween(String value1, String value2) {
+            addCriterion("mark between", value1, value2, "mark");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkNotBetween(String value1, String value2) {
+            addCriterion("mark not between", value1, value2, "mark");
+            return (Criteria) this;
+        }
+
         public Criteria andEnableIsNull() {
             addCriterion("`enable` is null");
             return (Criteria) this;
@@ -413,6 +483,11 @@ public class SysResourceGroupExample extends BaseExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarkLikeInsensitive(String value) {
+            addCriterion("upper(mark) like", value.toUpperCase(), "mark");
             return (Criteria) this;
         }
 

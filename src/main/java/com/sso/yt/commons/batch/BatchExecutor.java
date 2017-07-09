@@ -1,6 +1,7 @@
 package com.sso.yt.commons.batch;
 
 import com.sso.yt.commons.IBatchExecutor;
+import com.sso.yt.commons.constants.ErrorCode;
 import com.sso.yt.commons.exceptions.BusinessException;
 import com.sso.yt.commons.utils.ApplicationContextUtils;
 import com.yt.mybatis.model.BaseMapper;
@@ -90,7 +91,7 @@ public class BatchExecutor<T extends BaseModel> implements IBatchExecutor<T> {
         try {
             tClass = Class.forName(mapperClass);
         } catch (ClassNotFoundException ex) {
-            throw new BusinessException(50033,"路径:" + mapperClass + "下加载类失败！",ex);
+            throw new BusinessException(ErrorCode.CODE_1001001,"路径:" + mapperClass + "下加载类失败！",ex);
         }
         return tClass;
     }

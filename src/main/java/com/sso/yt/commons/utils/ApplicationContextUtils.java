@@ -1,5 +1,6 @@
 package com.sso.yt.commons.utils;
 
+import com.sso.yt.commons.constants.ErrorCode;
 import com.sso.yt.commons.exceptions.BusinessException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -14,6 +15,7 @@ import org.springframework.context.ApplicationContextAware;
  * @version 1.0.0
  * @date 2016/7/20 11:39
  */
+
 public class ApplicationContextUtils implements ApplicationContextAware {
 
     private static ApplicationContext context;
@@ -24,7 +26,7 @@ public class ApplicationContextUtils implements ApplicationContextAware {
         try {
             ApplicationContextUtils.context = applicationContext;
         } catch (BeansException ex) {
-            throw new BusinessException(50002, "应用上下文获取失败", ex);
+            throw new BusinessException(ErrorCode.CODE_1000001, "应用上下文获取失败", ex);
         }
 
     }
@@ -41,7 +43,7 @@ public class ApplicationContextUtils implements ApplicationContextAware {
      * @return
      * @throws BeansException
      */
-    public static <T> T getBeanByClass(Class<T> tClass) throws BeansException {
+    public static <T> T getBeanByClass(Class<T> tClass){
         return context.getBean(tClass);
     }
 
@@ -54,7 +56,7 @@ public class ApplicationContextUtils implements ApplicationContextAware {
      * @throws BeansException
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getBean(String beanName) throws BeansException {
+    public static <T> T getBean(String beanName){
         return (T) context.getBean(beanName);
     }
 
@@ -76,7 +78,7 @@ public class ApplicationContextUtils implements ApplicationContextAware {
      * @return
      * @throws NoSuchBeanDefinitionException
      */
-    public static Boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
+    public static Boolean isSingleton(String name){
         return context.isSingleton(name);
     }
 
@@ -88,7 +90,7 @@ public class ApplicationContextUtils implements ApplicationContextAware {
      * @return
      * @throws NoSuchBeanDefinitionException
      */
-    public static Boolean isPrototype(String name) throws NoSuchBeanDefinitionException {
+    public static Boolean isPrototype(String name) {
         return context.isPrototype(name);
     }
 

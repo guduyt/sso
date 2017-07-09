@@ -25,25 +25,35 @@ import java.util.Properties;
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class SqlInterceptor implements Interceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Interceptor.class);
-    private boolean printSql;
+    private boolean printSql=true;
     private String dialect;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
+
+        
         if (!(invocation.getTarget() instanceof RoutingStatementHandler))
             return invocation.proceed();
-        if (printSql) {
-            RoutingStatementHandler handler = (RoutingStatementHandler) invocation.getTarget();
-            BoundSql boundSql = handler.getBoundSql();
-
-            String sqlString = boundSql.getSql();
-            if (null != sqlString) {
-                sqlString = sqlString.replaceAll("\\n", " ");
+        if("true".equals(System.getProperty("printSql"))){
+            printSql(invocation);
+        }else{
+            if (printSql && LOGGER.isDebugEnabled()) {
+                printSql(invocation);
             }
-            if (LOGGER.isDebugEnabled())
-                LOGGER.debug("执行sql语句：" + sqlString);
         }
+
         return invocation.proceed();
+    }
+
+    private  void printSql(Invocation invocation){
+        RoutingStatementHandler handler = (RoutingStatementHandler) invocation.getTarget();
+        BoundSql boundSql = handler.getBoundSql();
+
+        String sqlString = boundSql.getSql();
+        if (null != sqlString) {
+            sqlString = sqlString.replaceAll("\\n", " ");
+        }
+        LOGGER.info("执行sql语句：" + sqlString);
     }
 
     @Override

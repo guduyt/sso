@@ -28,12 +28,6 @@ public class SysResourceGroupRelation extends BaseModel implements Serializable 
     private Integer resourcesId;
 
     /**
-    * 启用标志
-    */
-    @Column(name="enable")
-    private Boolean enable;
-
-    /**
     * 创建人
     */
     @Column(name="creator")
@@ -69,14 +63,6 @@ public class SysResourceGroupRelation extends BaseModel implements Serializable 
 
     public void setResourcesId(Integer resourcesId) {
         this.resourcesId = resourcesId;
-    }
-
-    public Boolean getEnable() {
-        return enable;
-    }
-
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
     }
 
     public String getCreator() {

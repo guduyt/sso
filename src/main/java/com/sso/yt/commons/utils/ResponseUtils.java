@@ -2,6 +2,7 @@ package com.sso.yt.commons.utils;
 
 
 import com.sso.yt.commons.ContextType;
+import com.sso.yt.commons.constants.ErrorCode;
 import com.sso.yt.commons.exceptions.CustomException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,7 @@ public final class ResponseUtils {
         try {
             response.getWriter().write(text);
         } catch (IOException ex) {
-            throw new CustomException(50032, "返回数据失败！", ex);
+            throw new CustomException(ErrorCode.CODE_1000004, "返回数据失败！", ex);
         }
 
     }

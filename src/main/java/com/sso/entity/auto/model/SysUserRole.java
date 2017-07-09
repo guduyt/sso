@@ -28,12 +28,6 @@ public class SysUserRole extends BaseModel implements Serializable {
     private Integer roleId;
 
     /**
-    * 描述
-    */
-    @Column(name="description")
-    private String description;
-
-    /**
     * 创建时间
     */
     @Column(name="create_time")
@@ -63,14 +57,6 @@ public class SysUserRole extends BaseModel implements Serializable {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 
     public Date getCreateTime() {

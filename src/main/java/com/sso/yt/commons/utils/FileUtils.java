@@ -1,6 +1,7 @@
 package com.sso.yt.commons.utils;
 
 import com.sso.yt.commons.ContextType;
+import com.sso.yt.commons.constants.ErrorCode;
 import com.sso.yt.commons.exceptions.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,10 @@ import java.util.UUID;
  * @date 2016/7/22 11:00
  */
 public class FileUtils implements ContextType {
-
+    private static final String NOT_EXISTS_FILE_MESSAGE="没有找到上传文件！";
+    private static final String NOT_EXISTS_UPLOAD_FILE_MESSAGE="上传文件不存在！";
+    private static final String SAVE_UPLOAD_FILE_MESSAGE="保存上传文件失败！";
+    private static final String UPLOAD_PATH="/uploadFiles";
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
 
     /**
@@ -65,12 +69,21 @@ public class FileUtils implements ContextType {
      */
     public static Boolean isRealPath(HttpServletRequest request, String path) {
         if (null == path)
-            throw new BusinessException(50021, "文件路径不能为空！");
+            throw new BusinessException(ErrorCode.CODE_1000021, "文件路径不能为空！");
 
         if (path.indexOf(request.getSession().getServletContext().getRealPath("/")) == 0) {
             return true;
         }
         return false;
+    }
+
+    private static void validatorExistsFile(MultipartFile file){
+        if (null == file || file.isEmpty())
+            throw new BusinessException(ErrorCode.CODE_1000022, NOT_EXISTS_FILE_MESSAGE);
+
+        String fileName = file.getOriginalFilename();
+        if (null == fileName || fileName.isEmpty())
+            throw new BusinessException(ErrorCode.CODE_1000023, NOT_EXISTS_UPLOAD_FILE_MESSAGE);
     }
 
     /**
@@ -88,16 +101,12 @@ public class FileUtils implements ContextType {
             Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
             while (iterator.hasNext()) {
                 MultipartFile file = multipartHttpServletRequest.getFile(iterator.next());
-                if (null == file || file.isEmpty())
-                    throw new BusinessException(50023, "没有找到上传文件！");
+                validatorExistsFile(file);
 
                 String fileName = file.getOriginalFilename();
-                if (null == fileName || fileName.isEmpty())
-                    throw new BusinessException(50024, "上传文件不存在！");
-
                 String fileType = fileName.substring(fileName.lastIndexOf("."));
                 String name = fileName.substring(0, fileName.lastIndexOf("."));
-                String path = "/uploadFiles" + File.separator + name + UUID.randomUUID() + fileType;
+                String path = UPLOAD_PATH + File.separator + name + UUID.randomUUID() + fileType;
                 String realPath = request.getSession().getServletContext().getRealPath(path);
 
                 try {
@@ -105,7 +114,7 @@ public class FileUtils implements ContextType {
                     file.transferTo(localFile);
                     return realPath;
                 } catch (Exception ex) {
-                    throw new BusinessException(50025, "保存上传文件失败！", ex);
+                    throw new BusinessException(ErrorCode.CODE_1000024, SAVE_UPLOAD_FILE_MESSAGE, ex);
                 }
             }
         }
@@ -129,18 +138,15 @@ public class FileUtils implements ContextType {
             Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
             while (iterator.hasNext()) {
                 MultipartFile file = multipartHttpServletRequest.getFile(iterator.next());
-                if (null == file || file.isEmpty())
-                    throw new BusinessException(50023, "没有找到上传文件！");
-
+                validatorExistsFile(file);
+                
                 if (null == fileName)
                     fileName = file.getOriginalFilename();
-                if (null == fileName || fileName.isEmpty())
-                    throw new BusinessException(50024, "上传文件不存在！");
 
                 String fileType = fileName.substring(fileName.lastIndexOf("."));
                 String name = fileName.substring(0, fileName.lastIndexOf("."));
                 if (null == path)
-                    path = "/uploadFiles" + File.separator;
+                    path = UPLOAD_PATH + File.separator;
                 path = path + name + fileType;
                 String realPath = request.getSession().getServletContext().getRealPath(path);
 
@@ -149,7 +155,7 @@ public class FileUtils implements ContextType {
                     file.transferTo(localFile);
                     return realPath;
                 } catch (Exception ex) {
-                    throw new BusinessException(50025, "保存上传文件失败！", ex);
+                    throw new BusinessException(ErrorCode.CODE_1000025, SAVE_UPLOAD_FILE_MESSAGE, ex);
                 }
             }
         }
@@ -172,16 +178,12 @@ public class FileUtils implements ContextType {
             Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
             while (iterator.hasNext()) {
                 MultipartFile file = multipartHttpServletRequest.getFile(iterator.next());
-                if (null == file || file.isEmpty())
-                    throw new BusinessException(50023, "没有找到上传文件！");
+                validatorExistsFile(file);
 
                 String fileName = file.getOriginalFilename();
-                if (null == fileName || fileName.isEmpty())
-                    throw new BusinessException(50024, "上传文件不存在！");
-
                 String fileType = fileName.substring(fileName.lastIndexOf("."));
                 String name = fileName.substring(0, fileName.lastIndexOf("."));
-                String path = "/uploadFiles" + File.separator + name + UUID.randomUUID() + fileType;
+                String path = UPLOAD_PATH + File.separator + name + UUID.randomUUID() + fileType;
                 String realPath = request.getSession().getServletContext().getRealPath(path);
 
                 try {
@@ -189,7 +191,7 @@ public class FileUtils implements ContextType {
                     file.transferTo(localFile);
                     list.add(realPath);
                 } catch (Exception ex) {
-                    throw new BusinessException(50025, "保存上传文件失败！", ex);
+                    throw new BusinessException(ErrorCode.CODE_1000026, SAVE_UPLOAD_FILE_MESSAGE, ex);
                 }
             }
         }
@@ -211,7 +213,7 @@ public class FileUtils implements ContextType {
                 return true;
             }
         } catch (Exception ex) {
-            throw new BusinessException(50026, "删除文件失败！", ex);
+            throw new BusinessException(ErrorCode.CODE_1000027, "删除文件失败！", ex);
         }
 
         return false;
@@ -254,7 +256,7 @@ public class FileUtils implements ContextType {
                 }
             }
         } catch (Exception ex) {
-            throw new BusinessException(50027, "下载文件失败！", ex);
+            throw new BusinessException(ErrorCode.CODE_1000028, "下载文件失败！", ex);
         } finally {
 
             if (null != outputStream) {
@@ -306,7 +308,7 @@ public class FileUtils implements ContextType {
             }
 
         } catch (Exception ex) {
-            throw new BusinessException(50027, "下载文件失败！", ex);
+            throw new BusinessException(ErrorCode.CODE_1000029, "下载文件失败！", ex);
         } finally {
             if (null != outputStream) {
                 try {
@@ -328,10 +330,10 @@ public class FileUtils implements ContextType {
      */
     public static File getFile(File directory, String... names) {
         if (directory == null) {
-            throw new BusinessException(50028, "文件目录不能为空！");
+            throw new BusinessException(ErrorCode.CODE_1000030, "文件目录不能为空！");
         }
         if (names == null) {
-            throw new BusinessException(50029, "文件名不能为空！");
+            throw new BusinessException(ErrorCode.CODE_1000031, "文件名不能为空！");
         }
         File file = directory;
         for (String name : names) {
@@ -348,7 +350,7 @@ public class FileUtils implements ContextType {
      */
     public static File getFile(String... names) {
         if (names == null) {
-            throw new BusinessException(50029, "文件名不能为空！");
+            throw new BusinessException(ErrorCode.CODE_1000032, "文件名不能为空！");
         }
         File file = null;
         for (String name : names) {
@@ -384,7 +386,7 @@ public class FileUtils implements ContextType {
             }
             return new FileInputStream(file);
         } catch (Exception ex) {
-            throw new BusinessException(50030, "打开读操作文件流异常！", ex);
+            throw new BusinessException(ErrorCode.CODE_1000033, "打开读操作文件流异常！", ex);
         }
     }
 
@@ -418,7 +420,7 @@ public class FileUtils implements ContextType {
             return new FileOutputStream(file, append);
 
         } catch (Exception ex) {
-            throw new BusinessException(50031, "打开写操作文件流异常！", ex);
+            throw new BusinessException(ErrorCode.CODE_1000034, "打开写操作文件流异常！", ex);
         }
     }
 
