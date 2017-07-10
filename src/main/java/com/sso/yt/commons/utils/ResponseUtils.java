@@ -2,7 +2,7 @@ package com.sso.yt.commons.utils;
 
 
 import com.sso.yt.commons.ContextType;
-import com.sso.yt.commons.constants.ErrorCode;
+import com.sso.yt.commons.constants.error.code.ErrorCode;
 import com.sso.yt.commons.exceptions.CustomException;
 
 import javax.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
 package com.sso.yt.commons.utils;
 
-import com.sso.yt.commons.constants.ErrorCode;
+import com.sso.yt.commons.constants.error.code.ErrorCode;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;

@@ -22,7 +22,7 @@ public class UnderlineToCamelUtils {
     }
 
     /**
-     * 下划线转驼峰法
+     * 下划线转驼峰法 ，会抛弃特殊字符
      * @param line 源字符串
      * @param smallCamel 大小驼峰,是否为小驼峰
      * @return 转换后的字符串
@@ -49,11 +49,12 @@ public class UnderlineToCamelUtils {
 
     
     /**
-     * 驼峰法转下划线
+     * 驼峰法转下划线，会抛弃特殊字符
      * @param line 源字符串
+     * @param small 是否为小驼峰
      * @return 转换后的字符串
      */
-    public static String camelToUnderline(String line){
+    public static String camelToUnderline(String line,boolean small){
         if(line==null||"".equals(line)){
             return "";
         }
@@ -63,9 +64,54 @@ public class UnderlineToCamelUtils {
         Matcher matcher=pattern.matcher(line);
         while(matcher.find()){
             String word=matcher.group();
-            sb.append(word.toUpperCase());
+            sb.append(small?word.toLowerCase():word.toUpperCase());
             sb.append(matcher.end()==line.length()?"":underline);
         }
         return sb.toString();
     }
+
+    /**
+     * 驼峰法转换为下划线命名法规则
+     * 结果"user@Name" =>"USER_@NAME";
+     * @param str 源字符串
+     * @return
+     */
+    public static String parseToUnderline(String str) {
+        char[] chars = str.toCharArray();
+        StringBuilder s = new StringBuilder();
+        boolean isFirst = true;
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] >= 65 && chars[i] <= 90) {
+                if (!isFirst)
+                    s.append('_');
+                s.append(chars[i]);
+            } else if (chars[i] >= 97 && chars[i] <= 122) {
+                s.append((char) (chars[i] - 32));
+            } else {
+                s.append(chars[i]);
+            }
+            isFirst = false;
+        }
+        return s.toString();
+    }
+
+    /**
+     *  下划线转驼峰法
+     *  结果 "user_id@name"=>userId@name
+     * @param source 源字符串
+     * @return
+     */
+    public static String parseToCamel(String source) {
+        source = source.toLowerCase();
+        Pattern p = Pattern.compile("_[a-z]");
+        Matcher m = p.matcher(source);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            String firstChar = m.group().substring(1, 2);
+            m.appendReplacement(sb, firstChar.toUpperCase());
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+
 }

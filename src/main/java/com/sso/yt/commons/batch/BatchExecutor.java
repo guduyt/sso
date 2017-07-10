@@ -1,7 +1,7 @@
 package com.sso.yt.commons.batch;
 
 import com.sso.yt.commons.IBatchExecutor;
-import com.sso.yt.commons.constants.ErrorCode;
+import com.sso.yt.commons.constants.error.code.ErrorCode;
 import com.sso.yt.commons.exceptions.BusinessException;
 import com.sso.yt.commons.utils.ApplicationContextUtils;
 import com.yt.mybatis.model.BaseMapper;

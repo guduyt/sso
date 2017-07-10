@@ -1,4 +1,4 @@
-package com.sso.yt.commons.constants;
+package com.sso.yt.commons.constants.error.code;
 
 /**
  * Created by yt on 2017-7-7.
