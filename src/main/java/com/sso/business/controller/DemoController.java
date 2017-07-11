@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sso.business.base.BaseSpringController;
 import com.sso.business.vo.DemoVO;
 
 /**
@@ -24,7 +25,7 @@ import com.sso.business.vo.DemoVO;
 
 @RestController
 @RequestMapping("/demo")
-public class DemoController {
+public class DemoController extends BaseSpringController {
 
     @ResponseBody
     @RequestMapping("/{id}")

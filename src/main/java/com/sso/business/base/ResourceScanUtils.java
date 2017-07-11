@@ -26,6 +26,7 @@ import com.sso.yt.commons.utils.UnderlineToCamelUtils;
 /**
  * Created by yt on 2017-7-6.
  */
+
 @Component
 public class ResourceScanUtils implements InitializingBean {
 
@@ -80,8 +81,10 @@ public class ResourceScanUtils implements InitializingBean {
 		if (Objects.isNull(queryData)) {
 			sysResourceDao.insertSelective(sysResource);
 		} else {
-			sysResource.setId(queryData.getId());
-			sysResourceDao.updateByPrimaryKeySelective(sysResource);
+			if(!Objects.equals(queryData.getMethod(),sysResource.getMethod())) {
+				sysResource.setId(queryData.getId());
+				sysResourceDao.updateByPrimaryKeySelective(sysResource);
+			}
 		}
 	}
 
