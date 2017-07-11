@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -25,13 +24,13 @@ public class SecurityUserDaoImplTest {
     
     @Test
     public void queryUserAndRoleByUserName() throws Exception {
-        List<SecurityUser> list=securityUserDao.queryUserAndRoleByUserName("易涛");
+        SecurityUser list=securityUserDao.queryUserAndRoleByUserName("易涛");
         Properties properties=System.getProperties();
         String printSql=properties.getProperty("printSql");
 
         SysUserExample userExample=new SysUserExample();
         userExample.createCriteria().andUserNameEqualTo("易涛").andEnableEqualTo(true);
-        list.size();
+        
         
     }
 

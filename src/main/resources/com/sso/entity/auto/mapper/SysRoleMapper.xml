@@ -3,6 +3,7 @@
 <mapper namespace="com.sso.entity.auto.mapper.SysRoleMapper">
   <resultMap id="BaseResultMap" type="com.sso.entity.auto.model.SysRole">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="app_id" jdbcType="INTEGER" property="appId" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="enable" jdbcType="BIT" property="enable" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, role_name, description, `enable`, `order`, creator, create_time
+    id, app_id, role_name, description, `enable`, `order`, creator, create_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysRoleExample" resultMap="BaseResultMap">
     select
@@ -102,16 +103,19 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysRole" useGeneratedKeys="true">
-    insert into sys_role (role_name, description, `enable`, 
-      `order`, creator, create_time
-      )
-    values (#{roleName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
-      #{order,jdbcType=TINYINT}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into sys_role (app_id, role_name, description, 
+      `enable`, `order`, creator, 
+      create_time)
+    values (#{appId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=BIT}, #{order,jdbcType=TINYINT}, #{creator,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysRole" useGeneratedKeys="true">
     insert into sys_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appId != null">
+        app_id,
+      </if>
       <if test="roleName != null">
         role_name,
       </if>
@@ -132,6 +136,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appId != null">
+        #{appId,jdbcType=INTEGER},
+      </if>
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
       </if>
@@ -175,6 +182,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=INTEGER},
+      </if>
       <if test="record.roleName != null">
         role_name = #{record.roleName,jdbcType=VARCHAR},
       </if>
@@ -201,6 +211,7 @@
   <update id="updateByExample" parameterType="map">
     update sys_role
     set id = #{record.id,jdbcType=INTEGER},
+      app_id = #{record.appId,jdbcType=INTEGER},
       role_name = #{record.roleName,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       `enable` = #{record.enable,jdbcType=BIT},
@@ -214,6 +225,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.sso.entity.auto.model.SysRole">
     update sys_role
     <set>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=INTEGER},
+      </if>
       <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
@@ -237,7 +251,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.SysRole">
     update sys_role
-    set role_name = #{roleName,jdbcType=VARCHAR},
+    set app_id = #{appId,jdbcType=INTEGER},
+      role_name = #{roleName,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       `enable` = #{enable,jdbcType=BIT},
       `order` = #{order,jdbcType=TINYINT},
@@ -261,10 +276,10 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_role (role_name,description,`enable`,`order`,creator,create_time) 
+    insert into sys_role (app_id,role_name,description,`enable`,`order`,creator,create_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
-        (#{item.roleName,jdbcType=VARCHAR},#{item.description,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.order,jdbcType=TINYINT},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 
+        (#{item.appId,jdbcType=INTEGER},#{item.roleName,jdbcType=VARCHAR},#{item.description,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.order,jdbcType=TINYINT},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP}) 
    </foreach>
   </insert>
 </mapper>

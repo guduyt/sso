@@ -1,10 +1,10 @@
 package com.sso.entity.manual.mapper;
 
-import java.util.Map;
-
+import com.sso.entity.manual.model.SecurityResource;
 import org.apache.ibatis.annotations.Param;
 
-import com.sso.entity.manual.model.SecurityResource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ResourceSecurityMapper
@@ -17,4 +17,8 @@ public interface ResourceSecurityMapper {
 	SecurityResource queryResourcesAndRoles(Map map);
 
 	SecurityResource queryResourcesAndRolesById(@Param("id") Integer resourcesId);
+
+	SecurityResource queryResourcesAndRolesForGroup(Map map);
+
+	List<SecurityResource> queryAllResourcesAndRoles(Map map);
 }

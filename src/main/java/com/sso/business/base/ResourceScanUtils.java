@@ -1,9 +1,9 @@
 package com.sso.business.base;
 
-import java.lang.reflect.Method;
-import java.util.Objects;
-import java.util.Set;
-
+import com.sso.entity.auto.dao.SysResourceDao;
+import com.sso.entity.auto.model.SysResource;
+import com.sso.yt.commons.constants.CommonConstant;
+import com.sso.yt.commons.utils.UnderlineToCamelUtils;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.sso.entity.auto.dao.SysResourceDao;
-import com.sso.entity.auto.model.SysResource;
-import com.sso.yt.commons.constants.CommonConstant;
-import com.sso.yt.commons.utils.UnderlineToCamelUtils;
+import java.lang.reflect.Method;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by yt on 2017-7-6.
@@ -148,6 +147,7 @@ public class ResourceScanUtils implements InitializingBean {
 				methodUrl = values.length > 0 ? values[0] : "/";
 			}
 		}
+		sysResource.setAppId(CommonConstant.APP_ID);
 		sysResource.setRequestPath(getUrl(controllerUrl,methodUrl));
 		sysResource.setRequestType(requestMethod);
 		sysResource.setJavaClass(String.valueOf(method.getDeclaringClass()));

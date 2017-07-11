@@ -3,6 +3,7 @@
 <mapper namespace="com.sso.entity.auto.mapper.SysResourceMapper">
   <resultMap id="BaseResultMap" type="com.sso.entity.auto.model.SysResource">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="app_id" jdbcType="INTEGER" property="appId" />
     <result column="resources_name" jdbcType="VARCHAR" property="resourcesName" />
     <result column="resource_path" jdbcType="VARCHAR" property="resourcePath" />
     <result column="request_path" jdbcType="VARCHAR" property="requestPath" />
@@ -79,9 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, resources_name, resource_path, request_path, request_type, java_class, short_method, 
-    `method`, description, `enable`, resources_type, parent_id, remark, creator, create_time, 
-    editor, edit_time
+    id, app_id, resources_name, resource_path, request_path, request_type, java_class, 
+    short_method, `method`, description, `enable`, resources_type, parent_id, remark, 
+    creator, create_time, editor, edit_time
   </sql>
   <select id="selectByExample" parameterType="com.sso.entity.auto.model.SysResourceExample" resultMap="BaseResultMap">
     select
@@ -114,22 +115,25 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysResource" useGeneratedKeys="true">
-    insert into sys_resource (resources_name, resource_path, request_path, 
-      request_type, java_class, short_method, 
-      `method`, description, `enable`, 
-      resources_type, parent_id, remark, 
-      creator, create_time, editor, 
-      edit_time)
-    values (#{resourcesName,jdbcType=VARCHAR}, #{resourcePath,jdbcType=VARCHAR}, #{requestPath,jdbcType=VARCHAR}, 
-      #{requestType,jdbcType=VARCHAR}, #{javaClass,jdbcType=VARCHAR}, #{shortMethod,jdbcType=VARCHAR}, 
-      #{method,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
-      #{resourcesType,jdbcType=TINYINT}, #{parentId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{editor,jdbcType=VARCHAR}, 
-      #{editTime,jdbcType=TIMESTAMP})
+    insert into sys_resource (app_id, resources_name, resource_path, 
+      request_path, request_type, java_class, 
+      short_method, `method`, description, 
+      `enable`, resources_type, parent_id, 
+      remark, creator, create_time, 
+      editor, edit_time)
+    values (#{appId,jdbcType=INTEGER}, #{resourcesName,jdbcType=VARCHAR}, #{resourcePath,jdbcType=VARCHAR}, 
+      #{requestPath,jdbcType=VARCHAR}, #{requestType,jdbcType=VARCHAR}, #{javaClass,jdbcType=VARCHAR}, 
+      #{shortMethod,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=BIT}, #{resourcesType,jdbcType=TINYINT}, #{parentId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{editor,jdbcType=VARCHAR}, #{editTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sso.entity.auto.model.SysResource" useGeneratedKeys="true">
     insert into sys_resource
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appId != null">
+        app_id,
+      </if>
       <if test="resourcesName != null">
         resources_name,
       </if>
@@ -180,6 +184,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appId != null">
+        #{appId,jdbcType=INTEGER},
+      </if>
       <if test="resourcesName != null">
         #{resourcesName,jdbcType=VARCHAR},
       </if>
@@ -253,6 +260,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=INTEGER},
+      </if>
       <if test="record.resourcesName != null">
         resources_name = #{record.resourcesName,jdbcType=VARCHAR},
       </if>
@@ -309,6 +319,7 @@
   <update id="updateByExample" parameterType="map">
     update sys_resource
     set id = #{record.id,jdbcType=INTEGER},
+      app_id = #{record.appId,jdbcType=INTEGER},
       resources_name = #{record.resourcesName,jdbcType=VARCHAR},
       resource_path = #{record.resourcePath,jdbcType=VARCHAR},
       request_path = #{record.requestPath,jdbcType=VARCHAR},
@@ -332,6 +343,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.sso.entity.auto.model.SysResource">
     update sys_resource
     <set>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=INTEGER},
+      </if>
       <if test="resourcesName != null">
         resources_name = #{resourcesName,jdbcType=VARCHAR},
       </if>
@@ -385,7 +399,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sso.entity.auto.model.SysResource">
     update sys_resource
-    set resources_name = #{resourcesName,jdbcType=VARCHAR},
+    set app_id = #{appId,jdbcType=INTEGER},
+      resources_name = #{resourcesName,jdbcType=VARCHAR},
       resource_path = #{resourcePath,jdbcType=VARCHAR},
       request_path = #{requestPath,jdbcType=VARCHAR},
       request_type = #{requestType,jdbcType=VARCHAR},
@@ -419,10 +434,10 @@
     <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into sys_resource (resources_name,resource_path,request_path,request_type,java_class,short_method,`method`,description,`enable`,resources_type,parent_id,remark,creator,create_time,editor,edit_time) 
+    insert into sys_resource (app_id,resources_name,resource_path,request_path,request_type,java_class,short_method,`method`,description,`enable`,resources_type,parent_id,remark,creator,create_time,editor,edit_time) 
     values 
     <foreach collection="list" item="item" index="index" separator="," > 
-        (#{item.resourcesName,jdbcType=VARCHAR},#{item.resourcePath,jdbcType=VARCHAR},#{item.requestPath,jdbcType=VARCHAR},#{item.requestType,jdbcType=VARCHAR},#{item.javaClass,jdbcType=VARCHAR},#{item.shortMethod,jdbcType=VARCHAR},#{item.method,jdbcType=VARCHAR},#{item.description,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.resourcesType,jdbcType=TINYINT},#{item.parentId,jdbcType=INTEGER},#{item.remark,jdbcType=VARCHAR},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP},#{item.editor,jdbcType=VARCHAR},#{item.editTime,jdbcType=TIMESTAMP}) 
+        (#{item.appId,jdbcType=INTEGER},#{item.resourcesName,jdbcType=VARCHAR},#{item.resourcePath,jdbcType=VARCHAR},#{item.requestPath,jdbcType=VARCHAR},#{item.requestType,jdbcType=VARCHAR},#{item.javaClass,jdbcType=VARCHAR},#{item.shortMethod,jdbcType=VARCHAR},#{item.method,jdbcType=VARCHAR},#{item.description,jdbcType=VARCHAR},#{item.enable,jdbcType=BIT},#{item.resourcesType,jdbcType=TINYINT},#{item.parentId,jdbcType=INTEGER},#{item.remark,jdbcType=VARCHAR},#{item.creator,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP},#{item.editor,jdbcType=VARCHAR},#{item.editTime,jdbcType=TIMESTAMP}) 
    </foreach>
   </insert>
 </mapper>

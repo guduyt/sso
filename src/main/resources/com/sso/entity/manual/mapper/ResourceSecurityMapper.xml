@@ -3,6 +3,7 @@
 <mapper namespace="com.sso.entity.manual.mapper.ResourceSecurityMapper">
     <resultMap id="ResourceResultMap" type="com.sso.entity.manual.model.SecurityResource">
         <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="app_id" jdbcType="INTEGER" property="appId" />
         <result column="request_path" jdbcType="VARCHAR" property="requestPath" />
         <result column="request_type" jdbcType="VARCHAR" property="requestType" />
         <result column="java_class" jdbcType="VARCHAR" property="javaClass" />
@@ -17,6 +18,7 @@
 
     <select id="queryResourcesAndRoles"  resultMap="ResourceResultMap" parameterType="java.util.Map" >
         SELECT r.`id`,
+        r.`app_id`,
         r.`request_path`,
         r.`request_type`,
         r.`java_class`,
@@ -43,24 +45,7 @@
             AND ro.`enable`=1 AND r.`enable`=1
         </where>
     </select>
-
-    <select id="queryResourcesAndRolesById"  resultMap="ResourceResultMap" parameterType="int" >
-        SELECT r.`id`,
-        r.`request_path`,
-        r.`request_type`,
-        r.`java_class`,
-        r.`short_method`,
-        r.`method`,
-        ro.`id` `role_id`,
-        ro.`role_name`
-        FROM
-        `sys_resource` AS r
-        INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=r.`id` AND rr.`type`=1
-        INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
-        WHERE  r.`id` = #{id,jdbcType=INTEGER} AND ro.`enable`=1 AND r.`enable`=1
-    </select>
-
-    <select id="queryResourcesAndRolesForGroup" resultMap="ResourceResultMap" parameterType="int">
+    <select id="queryResourcesAndRolesForGroup" resultMap="ResourceResultMap" parameterType="java.util.Map">
         SELECT
             r.`id`,
             r.`request_path`,
@@ -92,9 +77,27 @@
         </where>
     </select>
 
-    <select id="queryAllResourcesAndRoles" resultMap="ResourceResultMap">
+    <select id="queryResourcesAndRolesById"  resultMap="ResourceResultMap" parameterType="int" >
+        SELECT r.`id`,
+        r.`app_id`,
+        r.`request_path`,
+        r.`request_type`,
+        r.`java_class`,
+        r.`short_method`,
+        r.`method`,
+        ro.`id` `role_id`,
+        ro.`role_name`
+        FROM
+        `sys_resource` AS r
+        INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=r.`id` AND rr.`type`=1
+        INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
+        WHERE  r.`id` = #{id,jdbcType=INTEGER} AND ro.`enable`=1 AND r.`enable`=1
+    </select>
+
+    <select id="queryAllResourcesAndRoles" resultMap="ResourceResultMap" parameterType="java.util.Map">
         SELECT
             r.`id`,
+            r.`app_id`,
             r.`request_path`,
             r.`request_type`,
             r.`java_class`,
@@ -106,10 +109,32 @@
         `sys_resource` AS r
         INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=r.`id` AND rr.`type`=1
         INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
-        WHERE ro.`enable`=1 AND r.`enable`=1
+        <where>
+            <if test="queryType != null">
+                <choose>
+                    <when test="queryType='id'">
+                        r.`id` = #{id,jdbcType=INTEGER}  AND
+                    </when>
+                    <when test="queryType='method'">
+                        r.`method` = #{queryKey,jdbcType=VARCHAR}   AND
+                    </when>
+                    <when test="queryName='resourcePath' ">
+                        r.`resource_path` = #{queryKey,jdbcType=VARCHAR}  AND
+                    </when>
+                    <otherwise>
+                        r.`resource_path` = #{queryKey,jdbcType=VARCHAR}  AND
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="appId != null">
+                 r.`app_id` = #{appId,jdbcType=INTEGER} AND
+            </if>
+              ro.`enable`=1 AND r.`enable`=1
+        </where>
         UNION
         SELECT
             r.`id`,
+            r.`app_id`,
             r.`request_path`,
             r.`request_type`,
             r.`java_class`,
@@ -123,6 +148,27 @@
         INNER JOIN `sys_resource` AS r  ON rgr.`resources_id`=r.`id`
         INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=rg.`id` AND rr.`type`=2
         INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
-        WHERE ro.`enable`=1 AND r.`enable`=1 AND  rg.`enable`=1
+        <where>
+            <if test="queryType != null">
+                <choose>
+                    <when test="queryType='id'">
+                        r.`id` = #{id,jdbcType=INTEGER}  AND
+                    </when>
+                    <when test="queryType='method'">
+                        r.`method` = #{queryKey,jdbcType=VARCHAR}   AND
+                    </when>
+                    <when test="queryName='resourcePath' ">
+                        r.`resource_path` = #{queryKey,jdbcType=VARCHAR}  AND
+                    </when>
+                    <otherwise>
+                        r.`resource_path` = #{queryKey,jdbcType=VARCHAR}  AND
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="appId != null">
+                r.`app_id` = #{appId,jdbcType=INTEGER} AND
+            </if>
+            ro.`enable`=1 AND r.`enable`=1
+        </where>
     </select>
 </mapper>

@@ -17,6 +17,8 @@ public class SecurityResource implements Serializable {
 
     private Integer id;
 
+    private Integer appId;
+
     private String resourcePath;
 
     private String requestPath;
@@ -95,11 +97,21 @@ public class SecurityResource implements Serializable {
         this.securityRoles = securityRoles;
     }
 
+
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString()).append(": ");
         sb.append("id: ").append(this.id).append("; ");
+        sb.append("appId: ").append(this.appId).append("; ");
         sb.append("resourcePath: ").append(this.resourcePath).append("; ");
         sb.append("requestPath: ").append(this.requestPath).append("; ");
         sb.append("requestType: ").append(this.requestType).append("; ");

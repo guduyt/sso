@@ -16,6 +16,12 @@ public class SysRole extends BaseModel implements Serializable {
     private Integer id;
 
     /**
+    * 应用id
+    */
+    @Column(name="app_id")
+    private Integer appId;
+
+    /**
     * 角色名
     */
     @Column(name="role_name")
@@ -59,6 +65,14 @@ public class SysRole extends BaseModel implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
     }
 
     public String getRoleName() {

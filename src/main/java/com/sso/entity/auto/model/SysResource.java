@@ -16,6 +16,12 @@ public class SysResource extends BaseModel implements Serializable {
     private Integer id;
 
     /**
+    * 应用id
+    */
+    @Column(name="app_id")
+    private Integer appId;
+
+    /**
     * 资源名
     */
     @Column(name="resources_name")
@@ -119,6 +125,14 @@ public class SysResource extends BaseModel implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
     }
 
     public String getResourcesName() {

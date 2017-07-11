@@ -1,11 +1,10 @@
 package com.sso.entity.manual.mapper;
 
-import java.util.List;
-import java.util.Map;
-
+import com.sso.entity.manual.model.SecurityUser;
 import org.apache.ibatis.annotations.Param;
 
-import com.sso.entity.manual.model.SecurityUser;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SecurityUserMapper
@@ -16,7 +15,7 @@ import com.sso.entity.manual.model.SecurityUser;
  */
 public interface SecurityUserMapper {
 
-    List<SecurityUser> queryUserAndRoles(Map map);
+    SecurityUser queryUserAndRoles(Map map);
 
     SecurityUser queryUserAndRolesById(@Param("id") Long userId);
 

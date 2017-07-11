@@ -16,6 +16,12 @@ public class SysResourceGroup extends BaseModel implements Serializable {
     private Integer id;
 
     /**
+    * 应用id
+    */
+    @Column(name="app_id")
+    private Integer appId;
+
+    /**
     * 操作id
     */
     @Column(name="action_id")
@@ -53,6 +59,14 @@ public class SysResourceGroup extends BaseModel implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
     }
 
     public Integer getActionId() {

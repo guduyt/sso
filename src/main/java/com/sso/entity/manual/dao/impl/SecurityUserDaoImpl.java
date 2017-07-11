@@ -20,35 +20,75 @@ import java.util.Map;
 
 @Repository
 public class SecurityUserDaoImpl implements SecurityUserDao {
-    private final String queryType = "queryType";
-    private final String queryKey = "queryKey";
+    private final String QUERY_TYPE = "queryType";
+    private final String QUERY_KEY = "queryKey";
+    private final String APP_ID = "appId";
     @Autowired
     private SecurityUserMapper securityUserMapper;
 
     @Override
-    public List<SecurityUser> queryUserAndRoleByUserName(String userName) {
+    public SecurityUser queryUserAndRoleByUserName(String userName) {
         Map<String, Object> map = new HashedMap();
-        map.put(queryType, "username");
-        map.put(queryKey, userName);
+        map.put(QUERY_TYPE, "username");
+        map.put(QUERY_KEY, userName);
 
         return securityUserMapper.queryUserAndRoles(map);
     }
 
     @Override
-    public List<SecurityUser> queryUserAndRoleByMobile(String mobile) {
+    public SecurityUser queryUserAndRoleByUserName(String userName,Integer appId) {
         Map<String, Object> map = new HashedMap();
-        map.put(queryType, "mobile");
-        map.put(queryKey, mobile);
+        map.put(QUERY_TYPE, "username");
+        map.put(QUERY_KEY, userName);
+        map.put(APP_ID,appId);
+        return securityUserMapper.queryUserAndRoles(map);
+    }
+
+    @Override
+    public SecurityUser queryUserAndRoleByMobile(String mobile) {
+        Map<String, Object> map = new HashedMap();
+        map.put(QUERY_TYPE, "mobile");
+        map.put(QUERY_KEY, mobile);
 
         return securityUserMapper.queryUserAndRoles(map);
     }
 
     @Override
-    public List<SecurityUser> queryUserAndRoleByEmail(String email) {
+    public SecurityUser queryUserAndRoleByMobile(String mobile,Integer appId) {
         Map<String, Object> map = new HashedMap();
-        map.put(queryType, "mobile");
-        map.put(queryKey, email);
+        map.put(QUERY_TYPE, "mobile");
+        map.put(QUERY_KEY, mobile);
+        map.put(APP_ID,appId);
+        return securityUserMapper.queryUserAndRoles(map);
+    }
 
+    @Override
+    public SecurityUser queryUserAndRoleByEmail(String email) {
+        Map<String, Object> map = new HashedMap();
+        map.put(QUERY_TYPE, "mobile");
+        map.put(QUERY_KEY, email);
+
+        return securityUserMapper.queryUserAndRoles(map);
+    }
+
+    @Override
+    public SecurityUser queryUserAndRoleByEmail(String email,Integer appId) {
+        Map<String, Object> map = new HashedMap();
+        map.put(QUERY_TYPE, "mobile");
+        map.put(QUERY_KEY, email);
+        map.put(APP_ID,appId);
+        return securityUserMapper.queryUserAndRoles(map);
+    }
+
+    public SecurityUser queryUserAndRoleById(Long id) {
+        return securityUserMapper.queryUserAndRolesById(id);
+    }
+
+    public SecurityUser queryUserAndRoleById(Long id,Integer appId) {
+        Map<String, Object> map = new HashedMap();
+        map.put(QUERY_TYPE, "id");
+        map.put(QUERY_KEY, id);
+        map.put(APP_ID,appId);
         return securityUserMapper.queryUserAndRoles(map);
     }
 
