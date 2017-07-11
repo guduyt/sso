@@ -26,27 +26,103 @@
         ro.`role_name`
         FROM
         `sys_resource` AS r
-        LEFT JOIN `sys_role_resource` AS rr ON rr.`resources_id`=r.`id` AND rr.`type`=1
-        LEFT JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
-        <if test="resourcesName != null">
-            WHERE  r.`resources_name`= #{resourcesName,jdbcType=VARCHAR}
-        </if>
+        INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=r.`id` AND rr.`type`=1
+        INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
+        <where>
+            <choose>
+                <when test="queryType='method'">
+                    r.`method` = #{queryKey,jdbcType=VARCHAR}
+                </when>
+                <when test="queryName='resourcePath' ">
+                    r.`resource_path` = #{queryKey,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    r.`resource_path` = #{queryKey,jdbcType=VARCHAR}
+                </otherwise>
+            </choose>
+            AND ro.`enable`=1 AND r.`enable`=1
+        </where>
     </select>
 
-    <select id="queryAllResourcesAndRoles"  resultMap="ResourceResultMap">
+    <select id="queryResourcesAndRolesById"  resultMap="ResourceResultMap" parameterType="int" >
         SELECT r.`id`,
-        r.`resources_name`,
-        r.`resources_type`,
-        r.`resource_path`,
-        r.`description`,
-        r.`enable`,
-        r.`parent_id`,
+        r.`request_path`,
+        r.`request_type`,
+        r.`java_class`,
+        r.`short_method`,
+        r.`method`,
         ro.`id` `role_id`,
-        ro.`role_name`,
-        ro.`enable`
+        ro.`role_name`
         FROM
         `sys_resource` AS r
-        LEFT JOIN `sys_role_resource` AS rr ON rr.`resources_id`=r.`id`
-        LEFT JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
+        INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=r.`id` AND rr.`type`=1
+        INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
+        WHERE  r.`id` = #{id,jdbcType=INTEGER} AND ro.`enable`=1 AND r.`enable`=1
+    </select>
+
+    <select id="queryResourcesAndRolesForGroup" resultMap="ResourceResultMap" parameterType="int">
+        SELECT
+            r.`id`,
+            r.`request_path`,
+            r.`request_type`,
+            r.`java_class`,
+            r.`short_method`,
+            r.`method`,
+            ro.`id` `role_id`,
+            ro.`role_name`
+        FROM
+        `sys_resource_group` AS rg
+        INNER JOIN `sys_resource_group_relation` AS rgr ON rgr.`resource_group_id`=rg.`id`
+        INNER JOIN `sys_resource` AS r  ON rgr.`resources_id`=r.`id`
+        INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=rg.`id` AND rr.`type`=2
+        INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
+        <where>
+            <choose>
+                <when test="queryType='method'">
+                    r.`method` = #{queryKey,jdbcType=VARCHAR}
+                </when>
+                <when test="queryName='resourcePath' ">
+                    r.`resource_path` = #{queryKey,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    r.`resource_path` = #{queryKey,jdbcType=VARCHAR}
+                </otherwise>
+            </choose>
+            AND ro.`enable`=1 AND r.`enable`=1 AND  rg.`enable`=1
+        </where>
+    </select>
+
+    <select id="queryAllResourcesAndRoles" resultMap="ResourceResultMap">
+        SELECT
+            r.`id`,
+            r.`request_path`,
+            r.`request_type`,
+            r.`java_class`,
+            r.`short_method`,
+            r.`method`,
+            ro.`id` `role_id`,
+            ro.`role_name`
+        FROM
+        `sys_resource` AS r
+        INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=r.`id` AND rr.`type`=1
+        INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
+        WHERE ro.`enable`=1 AND r.`enable`=1
+        UNION
+        SELECT
+            r.`id`,
+            r.`request_path`,
+            r.`request_type`,
+            r.`java_class`,
+            r.`short_method`,
+            r.`method`,
+            ro.`id` `role_id`,
+            ro.`role_name`
+        FROM
+         `sys_resource_group` AS rg
+        INNER JOIN `sys_resource_group_relation` AS rgr ON rgr.`resource_group_id`=rg.`id`
+        INNER JOIN `sys_resource` AS r  ON rgr.`resources_id`=r.`id`
+        INNER JOIN `sys_role_resource` AS rr ON rr.`resources_id`=rg.`id` AND rr.`type`=2
+        INNER JOIN  `sys_role` AS ro ON ro.`id`=rr.`role_id`
+        WHERE ro.`enable`=1 AND r.`enable`=1 AND  rg.`enable`=1
     </select>
 </mapper>
