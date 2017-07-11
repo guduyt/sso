@@ -13,7 +13,7 @@ import java.util.Map;
  * @version 1.0.0
  * @date 2017/7/8 0:46
  */
-public interface ResourceSecurityMapper {
+public interface SecurityResourceMapper {
 	SecurityResource queryResourcesAndRoles(Map map);
 
 	SecurityResource queryResourcesAndRolesById(@Param("id") Integer resourcesId);

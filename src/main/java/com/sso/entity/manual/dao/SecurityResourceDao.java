@@ -7,5 +7,5 @@ package com.sso.entity.manual.dao;
  * @version 1.0.0
  * @date 2017/7/11 21:18
  */
-public interface ResourceSecurityDao {
+public interface SecurityResourceDao {
 }

@@ -1,6 +1,6 @@
 package com.sso.entity.manual.dao.impl;
 
-import com.sso.entity.manual.dao.ResourceSecurityDao;
+import com.sso.entity.manual.dao.SecurityResourceDao;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class ResourceSecurityDaoImpl implements ResourceSecurityDao{
+public class SecurityResourceDaoImpl implements SecurityResourceDao {
 }

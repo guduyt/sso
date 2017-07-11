@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sso.yt.commons.exceptions.ValidateException;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,9 +35,8 @@ import com.sso.yt.commons.utils.ResponseUtils;
  */
 @ControllerAdvice
 public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver implements Ordered {
-
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final String defaultMessage="应用程序内部未知错误,请联系开发工程师！";
+    
+    protected  Logger logger = LoggerFactory.getLogger(this.getClass());
     private int code = -1;
     private String message;
 
@@ -45,30 +45,44 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
         httpServletResponse.setStatus(500);
         Class exClass = ex.getClass();
 
-        //如果不是自定义错误或者方法的参数错误，写入错误日志
-        if (!ClassUtils.isAssignable(exClass, IllegalArgumentException.class))
-            logger.error(ex.getMessage(), ex);
-
         if (ClassUtils.isAssignable(exClass, BaseException.class)) { //自定义异常
             code = ((BaseException) ex).getCode();
             message = ex.getMessage();
-
-        } else if(ClassUtils.isAssignable(exClass, MethodArgumentNotValidException.class)){ //参数校验错误
-            message="参数校验错误！";
-            String msg = getMessageFromValidException((MethodArgumentNotValidException) ex);
-            if (StringUtils.isNotEmpty(msg)) {
-                if (msg.indexOf(":") != -1) {
-                 String intCode= StringUtils.substringBefore(msg,":");
-                    if(StringUtils.isNumeric(intCode))
-                        code= Integer.valueOf(intCode);
-                 message=StringUtils.substringAfter(msg,":");
-                }else {
-                    if(StringUtils.isNumeric(msg))
-                        code= Integer.valueOf(msg);
-                }
+            if(ex instanceof ValidateException){
+                logger.error(ex.getMessage());
+            } else {
+                logger.error(ex.getMessage(), ex);
             }
+        } else if(ClassUtils.isAssignable(exClass, MethodArgumentNotValidException.class)){ //参数校验错误
+            methodArgumentNotValidExceptionHandle((MethodArgumentNotValidException)ex);
+        }else {
+            otherExceptionHandle(ex);
+        }
 
-        }else if (ClassUtils.isAssignable(exClass, IllegalArgumentException.class)) {//方法的参数错误
+        return this.handleResponse(httpServletRequest, httpServletResponse, handlerMethod, code, message);
+    }
+
+    private void methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException ex){
+        message="参数校验错误！";
+        String msg = getMessageFromValidException(ex);
+        if (StringUtils.isNotEmpty(msg)) {
+            if (msg.indexOf(':') != -1) {
+                String intCode = StringUtils.substringBefore(msg, ":");
+                message = StringUtils.substringAfter(msg, ":");
+                if (StringUtils.isNumeric(intCode)) {
+                    code = Integer.valueOf(intCode);}
+            } else if(StringUtils.isNumeric(msg)){
+                code = Integer.valueOf(msg);
+            }else {
+                logger.error(ex.getMessage(), ex);
+            }
+        }
+    }
+    private void otherExceptionHandle(Exception ex){
+        Class exClass = ex.getClass();
+        logger.error(ex.getMessage(), ex);
+
+        if (ClassUtils.isAssignable(exClass, IllegalArgumentException.class)) {//方法的参数错误
             message = ex.getMessage();
 
         } else if (ClassUtils.isAssignable(exClass, NullPointerException.class) || ClassUtils.isAssignable(exClass, ArrayIndexOutOfBoundsException.class)) { //未经初始化的对象
@@ -84,11 +98,8 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
             message = "数据转换失败！";
 
         } else {
-
-            message = defaultMessage;
+            message = "应用程序内部未知错误,请联系开发工程师！";
         }
-
-        return this.handleResponse(httpServletRequest, httpServletResponse, handlerMethod, code, message);
     }
 
     private ModelAndView handleResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HandlerMethod handlerMethod, int code, String message) {
