@@ -1,8 +1,8 @@
 package com.sso.entity.manual.dao;
 
-import com.sso.entity.manual.model.SecurityUser;
-
 import java.util.List;
+
+import com.sso.entity.manual.model.SecurityUser;
 
 /**
  * SecurityUserDao

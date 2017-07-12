@@ -1,8 +1,9 @@
 package com.sso.entity.manual.model;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import java.io.Serializable;
+
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * SecurityRole
@@ -11,8 +12,10 @@ import java.io.Serializable;
  * @version 1.0.0
  * @date 2017/7/5 21:49
  */
-public class SecurityRole implements GrantedAuthority ,Serializable {
+public class SecurityRole implements GrantedAuthority,ConfigAttribute,Serializable {
     private Integer id;
+
+    private Integer appId;
 
     private String roleName;
     
@@ -26,6 +29,14 @@ public class SecurityRole implements GrantedAuthority ,Serializable {
         this.id = id;
     }
 
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
+    }
+
     public String getRoleName() {
         return roleName;
     }
@@ -36,6 +47,11 @@ public class SecurityRole implements GrantedAuthority ,Serializable {
 
     @Override
     public String getAuthority() {
-        return roleName;
+        return appId+"@"+roleName;
+    }
+
+    @Override
+    public String getAttribute() {
+        return appId+"@"+roleName;
     }
 }

@@ -1,14 +1,15 @@
 package com.sso.entity.manual.dao.impl;
 
-import com.sso.entity.manual.dao.SecurityUserDao;
-import com.sso.entity.manual.mapper.SecurityUserMapper;
-import com.sso.entity.manual.model.SecurityUser;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
+import com.sso.entity.manual.dao.SecurityUserDao;
+import com.sso.entity.manual.mapper.SecurityUserMapper;
+import com.sso.entity.manual.model.SecurityUser;
 
 /**
  * SecurityUserDaoImpl
@@ -25,6 +26,9 @@ public class SecurityUserDaoImpl implements SecurityUserDao {
     private final String APP_ID = "appId";
     @Autowired
     private SecurityUserMapper securityUserMapper;
+
+
+
 
     @Override
     public SecurityUser queryUserAndRoleByUserName(String userName) {
@@ -65,7 +69,7 @@ public class SecurityUserDaoImpl implements SecurityUserDao {
     @Override
     public SecurityUser queryUserAndRoleByEmail(String email) {
         Map<String, Object> map = new HashedMap();
-        map.put(QUERY_TYPE, "mobile");
+        map.put(QUERY_TYPE, "email");
         map.put(QUERY_KEY, email);
 
         return securityUserMapper.queryUserAndRoles(map);
@@ -74,7 +78,7 @@ public class SecurityUserDaoImpl implements SecurityUserDao {
     @Override
     public SecurityUser queryUserAndRoleByEmail(String email,Integer appId) {
         Map<String, Object> map = new HashedMap();
-        map.put(QUERY_TYPE, "mobile");
+        map.put(QUERY_TYPE, "email");
         map.put(QUERY_KEY, email);
         map.put(APP_ID,appId);
         return securityUserMapper.queryUserAndRoles(map);

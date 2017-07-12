@@ -10,4 +10,12 @@ import com.yt.mybatis.dao.BasePKDaoAdapter;
 
 @Repository
 public class SysUserDaoImpl extends BasePKDaoAdapter<Long, SysUser, SysUserExample, SysUserMapper> implements SysUserDao {
+
+	/*public SysUser queryUserByUserName(String userName) {
+		SysUserExample sysUserExample =new SysUserExample();
+		sysUserExample.createCriteria().andUserNameEqualTo(userName);
+		List<SysUser>  list= selectByExample(sysUserExample);
+
+		return ;
+	}*/
 }

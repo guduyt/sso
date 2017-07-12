@@ -1,10 +1,11 @@
 package com.sso.entity.manual.mapper;
 
-import com.sso.entity.manual.model.SecurityUser;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.sso.entity.manual.model.SecurityUser;
 
 /**
  * SecurityUserMapper

@@ -1,16 +1,17 @@
-package com.sso.entity.auto.dao.impl;
+package java.com.sso.entity.auto.dao.impl;
 
-import com.sso.entity.auto.dao.ErrorMessageDao;
-import com.sso.entity.auto.model.ErrorMessage;
-import com.sso.entity.auto.model.ErrorMessageExample;
-import com.sso.yt.commons.utils.DateUtils;
+import java.util.Date;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
+import com.sso.entity.auto.dao.ErrorMessageDao;
+import com.sso.entity.auto.model.ErrorMessage;
+import com.sso.entity.auto.model.ErrorMessageExample;
+import com.sso.yt.commons.utils.DateUtils;
 
 /**
  * Created by yt on 2017/7/7.

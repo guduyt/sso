@@ -30,7 +30,7 @@
         <remember-me remember-me-parameter="rememberMe"   data-source-ref="dataSource"  />
         <csrf disabled="true"/>
 
-        <custom-filter ref="sysFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+        <custom-filter ref="securityFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
         <anonymous enabled="true" key="doesNotMatter" username="游客" granted-authority="ROLE_ANONYMOUS"/>
 
         <session-management session-fixation-protection="migrateSession">
@@ -56,10 +56,10 @@
     </b:bean>
 
     <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="sysUserDetailsService">
-           <!-- <password-encoder ref="md5PasswordEncoder">
-                <salt-source ref="saltSource"/>
-            </password-encoder>-->
+        <authentication-provider user-service-ref="securityUserDetailsServiceImpl">
+            <password-encoder ref="md5PasswordEncoder">
+                <!--<salt-source ref="saltSource"/>-->
+            </password-encoder>
         </authentication-provider>
     </authentication-manager>
     <b:bean id="md5PasswordEncoder"
