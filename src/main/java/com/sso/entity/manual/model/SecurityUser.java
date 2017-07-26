@@ -130,7 +130,7 @@ public class SecurityUser implements UserDetails,CredentialsContainer,Serializab
 
     @Override
     public boolean isAccountNonLocked() {
-        return !this.isLock;
+        return this.isLock;
     }
 
     @Override
