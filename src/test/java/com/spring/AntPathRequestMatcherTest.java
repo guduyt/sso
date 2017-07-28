@@ -20,6 +20,7 @@ public class AntPathRequestMatcherTest {
 
         Assert.assertTrue("/demo/{id}不匹配/demo/id",antPathMatcher.match("/demo/{id}","/demo/id"));
         Assert.assertTrue("/demo/{id}不匹配/demo/query",antPathMatcher.match("/demo/{id}","/demo/query"));
+        Assert.assertFalse("/demo/query/{id}不匹配/demo/query",antPathMatcher.match("/demo/query/{id}","/demo/query"));
         Assert.assertFalse("/demo/{id}不匹配/demo/",antPathMatcher.match("/demo/{id}","/demo/"));
     }
 }

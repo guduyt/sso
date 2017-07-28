@@ -28,7 +28,7 @@ import com.sso.business.vo.DemoVO;
 public class DemoController extends BaseSpringController {
 
     @ResponseBody
-    @RequestMapping("/{id}")
+    @RequestMapping("/queryById/{id}")
     public int queryById(@PathVariable int id) {
         return id;
     }
