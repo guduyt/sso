@@ -1,7 +1,8 @@
 package com.sso.business.security;
 
+import com.sso.yt.commons.constants.error.SecurityErrorCode;
+import com.sso.yt.commons.exceptions.ValidateException;
 import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,7 +40,7 @@ public class SecurityAccessDecisionManagerImpl implements AccessDecisionManager 
                 }
             }
         }
-        throw new AccessDeniedException("Access Denied");
+        throw new ValidateException(SecurityErrorCode.CODE_1003001,"没有权限操作！");
     }
 
     @Override
