@@ -1,12 +1,7 @@
 package com.sso.business.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.sso.entity.manual.dao.SecurityResourceDao;
+import com.sso.entity.manual.model.SecurityResource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -17,8 +12,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
-import com.sso.entity.manual.dao.SecurityResourceDao;
-import com.sso.entity.manual.model.SecurityResource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * SecurityMetadataSourceImpl
@@ -58,6 +56,14 @@ public class SecurityMetadataSourceImpl implements FilterInvocationSecurityMetad
 				collection.addAll(securityResource.getSecurityRoles());
 			}
 
+		}
+		if (collection.size() == 0) {
+			collection.add(new ConfigAttribute() {
+				@Override
+				public String getAttribute() {
+					return "ROLE_NO_USER";
+				}
+			});
 		}
 		return collection;
 	}
