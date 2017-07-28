@@ -53,7 +53,7 @@ public class HostUtils {
 
 	public static String getIp() {
 		if(null==ip)
-			setIP();
+			ip= getInetAddress().getHostAddress();
 		return ip;
 	}
 
@@ -63,9 +63,7 @@ public class HostUtils {
 		return hostName;
 	}
 
-
-
-	public String getMacAddress() {
+	public static String getMacAddress() {
 		if(null==macAddress)
 			setMacAddress();
 		return macAddress;
@@ -139,24 +137,6 @@ public class HostUtils {
 		}
 	}
 
-	private static synchronized void setIP(){
-		try {
-			InetAddress inetAddress;
-			if(isWindows()){
-				inetAddress= InetAddress.getLocalHost();
-			} else if(isLinux()){
-				inetAddress=InetAddress.getByName(getHostName());
-			} else {
-				inetAddress=InetAddress.getLocalHost();
-			}
-			ip= inetAddress.getHostAddress();
-		} catch (Exception ex){
-			LOGGER.error("获取计算机IP异常！",  ex);
-			ip="unknow_host";
-		}
-
-	}
-
 	private static synchronized void setMacAddress(){
 		try (Formatter formatter = new Formatter()){
 			NetworkInterface networkInterface=NetworkInterface.getByInetAddress(getInetAddress());
@@ -173,7 +153,7 @@ public class HostUtils {
 		}
 	}
 
-	private static InetAddress getInetAddress(){
+	private static synchronized InetAddress getInetAddress(){
 		try {
 			InetAddress inetAddress;
 			if(isWindows()){
@@ -206,7 +186,6 @@ public class HostUtils {
 							LogUtils.LOGGER.debug("外网IP:"+ip.getHostAddress());
 							return ip;
 						}
-
 						if(!ip.isLoopbackAddress() && !ip.isLinkLocalAddress() && ip.isSiteLocalAddress()){ // 内网IP
 							LogUtils.LOGGER.debug("内网IP:"+ip.getHostAddress());
 							return ip;
