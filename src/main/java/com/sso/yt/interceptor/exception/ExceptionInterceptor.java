@@ -6,13 +6,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sso.yt.commons.exceptions.ValidateException;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.dao.DataAccessException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionRes
 
 import com.alibaba.fastjson.JSON;
 import com.sso.yt.commons.exceptions.BaseException;
+import com.sso.yt.commons.exceptions.ValidateException;
 import com.sso.yt.commons.utils.ResponseUtils;
 
 /**
@@ -53,8 +55,8 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
             } else {
                 logger.error(ex.getMessage(), ex);
             }
-        } else if(ClassUtils.isAssignable(exClass, MethodArgumentNotValidException.class)){ //参数校验错误
-            methodArgumentNotValidExceptionHandle((MethodArgumentNotValidException)ex);
+        } else if(ClassUtils.isAssignable(exClass, MethodArgumentNotValidException.class) || ClassUtils.isAssignable(exClass, BindException.class)){ //参数校验错误
+            validExceptionHandle(ex);
         }else {
             otherExceptionHandle(ex);
         }
@@ -62,9 +64,15 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
         return this.handleResponse(httpServletRequest, httpServletResponse, handlerMethod, code, message);
     }
 
-    private void methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException ex){
+    private void validExceptionHandle(Exception ex){
         message="参数校验错误！";
-        String msg = getMessageFromValidException(ex);
+        BindingResult bindingResult;
+        if (ex instanceof MethodArgumentNotValidException) {
+            bindingResult= ((MethodArgumentNotValidException)ex).getBindingResult();
+        }  else {
+            bindingResult= ((BindException)ex).getBindingResult();
+        }
+        String msg = getMessageFromBindingResult(bindingResult);
         if (StringUtils.isNotEmpty(msg)) {
             if (msg.indexOf(':') != -1) {
                 String intCode = StringUtils.substringBefore(msg, ":");
@@ -132,14 +140,13 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
         return StringUtils.isNotBlank(request.getHeader("X-Requested-With"));
     }
 
-    private String getMessageFromValidException(MethodArgumentNotValidException methodException) {
-        methodException.getParameter();
-        for (ObjectError error : methodException.getBindingResult().getAllErrors()) {
+    private String getMessageFromBindingResult(BindingResult bindingResult){
+        for (ObjectError error :  bindingResult.getAllErrors()) {
             return error.getDefaultMessage();
         }
         return "";
-    }
 
+    }
     @Override
     public int getOrder() {
         return 0;
