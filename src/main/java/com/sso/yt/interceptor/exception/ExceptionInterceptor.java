@@ -145,7 +145,6 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
             return error.getDefaultMessage();
         }
         return "";
-
     }
     @Override
     public int getOrder() {
