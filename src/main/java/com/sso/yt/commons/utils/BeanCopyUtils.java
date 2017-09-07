@@ -1,11 +1,11 @@
 package com.sso.yt.commons.utils;
 
 
-import com.sso.yt.commons.constants.error.code.ErrorCode;
-import com.sso.yt.commons.exceptions.BusinessException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sso.yt.commons.constants.error.code.ErrorCode;
+import com.sso.yt.commons.exceptions.BusinessException;
 
 /**
  * Created by yt on 2017-1-23.
@@ -20,9 +20,9 @@ public class BeanCopyUtils extends org.springframework.beans.BeanUtils {
      * @param source 原始对象
      * @param target 目标对象
      */
-    public static void copyProperties(Object source, Object target) {
+    public static void copy(Object source, Object target) {
         Assert.notNull(source, 110001007, "源对象不能为空");
-        Assert.notNull(source, 110001008, "目标对象不能为空");
+        Assert.notNull(target, 110001008, "目标对象不能为空");
         try {
             org.springframework.beans.BeanUtils.copyProperties(source, target);
         } catch (Exception ex) {

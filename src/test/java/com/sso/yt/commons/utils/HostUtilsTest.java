@@ -24,6 +24,7 @@ public class HostUtilsTest {
 		LogUtils.LOGGER.info("HostUtils.getOSName():"+HostUtils.getOSName());
 		LogUtils.LOGGER.info("HostUtils.getHostName():"+HostUtils.getHostName());
 		LogUtils.LOGGER.info("HostUtils.getUserName():"+HostUtils.getIp());
+		LogUtils.LOGGER.info("HostUtils.getMacAddress():"+HostUtils.getMacAddress());
 		LogUtils.LOGGER.info("HostUtils.getFileSeparator():"+HostUtils.getFileSeparator());
 		LogUtils.LOGGER.info("HostUtils.getLineSeparator():"+HostUtils.getLineSeparator());
 		LogUtils.LOGGER.info("HostUtils.getPathSeparator():"+HostUtils.getPathSeparator());
