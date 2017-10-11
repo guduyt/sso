@@ -1,9 +1,14 @@
 package com.sso.entity.auto.model;
 
-import com.yt.mybatis.model.BaseModel;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.yt.mybatis.model.BaseModel;
 
 @Entity
 @Table(name = "sys_user")
@@ -40,13 +45,13 @@ public class SysUser extends BaseModel implements Serializable {
     private String email;
 
     /**
-    * 启用标志
+    * 启用标志 0禁用1启用
     */
     @Column(name="enable")
     private Boolean enable;
 
     /**
-    * 锁定标志
+    * 锁定标志 0锁定1启用
     */
     @Column(name="is_lock")
     private Boolean isLock;

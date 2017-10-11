@@ -273,7 +273,7 @@
     <if test="orderByClause != null">
        order by ${orderByClause} 
     </if>
-    <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
+    <![CDATA[LIMIT #{limit} , #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
     insert into sys_resource_action (`name`,mark,`type`,`enable`,`order`,creator,create_time) 

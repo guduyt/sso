@@ -28,7 +28,7 @@ public class SysRoleResource extends BaseModel implements Serializable {
     private Integer resourcesId;
 
     /**
-    * 1.细粒度资源，2资源组,3应用菜单
+    * 1.资源组,2应用菜单
     */
     @Column(name="type")
     private Integer type;

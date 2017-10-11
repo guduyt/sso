@@ -368,7 +368,7 @@
     <if test="orderByClause != null">
        order by ${orderByClause} 
     </if>
-    <![CDATA[LIMIT #{limit} OFFSET #{offset}]]>
+    <![CDATA[LIMIT #{limit} , #{offset}]]>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
     insert into sys_module (app_id,module_name,module_type,description,module_path,parent_id,`level`,controller_name,`enable`,`order`,remark,creator,create_time) 
