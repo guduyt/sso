@@ -16,6 +16,6 @@ public class SuccessEventListener implements ApplicationListener<AuthenticationS
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent authenticationSuccessEvent) {
         WebAuthenticationDetails auth = (WebAuthenticationDetails) authenticationSuccessEvent.getAuthentication().getDetails() ;
-        LogUtils.LOGGER.info("登录成功"+auth!=null?auth.toString():"");
+        LogUtils.LOGGER.info("登录成功,{}",auth!=null?auth.toString():"");
     }
 }

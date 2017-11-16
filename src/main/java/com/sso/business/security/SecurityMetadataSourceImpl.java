@@ -57,14 +57,14 @@ public class SecurityMetadataSourceImpl implements FilterInvocationSecurityMetad
 			}
 
 		}
-		if (collection.size() == 0) {
+		/*if (collection.size() == 0) {
 			collection.add(new ConfigAttribute() {
 				@Override
 				public String getAttribute() {
 					return "ROLE_NO_USER";
 				}
 			});
-		}
+		}*/
 		return collection;
 	}
 
