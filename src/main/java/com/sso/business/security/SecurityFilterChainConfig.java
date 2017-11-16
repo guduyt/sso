@@ -1,11 +1,11 @@
 package com.sso.business.security;
 
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.filter.CharacterEncodingFilter;
-
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
 
 /**
  * SecurityConfig
@@ -15,7 +15,7 @@ import javax.servlet.ServletContext;
  * @date 2017/7/28 22:20
  */
 @Configuration
-public class SecurityConfig extends AbstractSecurityWebApplicationInitializer {
+public class SecurityFilterChainConfig extends AbstractSecurityWebApplicationInitializer {
     @Override
     protected void beforeSpringSecurityFilterChain(ServletContext servletContext)
     {
