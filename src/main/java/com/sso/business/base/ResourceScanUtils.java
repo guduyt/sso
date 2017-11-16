@@ -1,9 +1,13 @@
 package com.sso.business.base;
 
-import com.sso.entity.auto.dao.SysResourceDao;
-import com.sso.entity.auto.model.SysResource;
-import com.sso.yt.commons.constants.CommonConstant;
-import com.sso.yt.commons.utils.UnderlineToCamelUtils;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections.map.HashedMap;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +22,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.lang.reflect.Method;
-import java.util.Objects;
-import java.util.Set;
+import com.sso.entity.auto.dao.SysResourceDao;
+import com.sso.entity.auto.model.SysResource;
+import com.sso.entity.auto.model.SysResourceExample;
+import com.sso.yt.commons.constants.CommonConstant;
+import com.sso.yt.commons.utils.UnderlineToCamelUtils;
 
 /**
  * Created by yt on 2017-7-6.
@@ -32,6 +38,7 @@ public class ResourceScanUtils implements InitializingBean {
 	private static Logger logger = LoggerFactory.getLogger(ResourceScanUtils.class);
 	private static final String BACK_AGE = "com.sso.business";
 	private final String defaultMethod="ALL";
+	private Map<String,SysResource> allSysResource=new HashedMap();
 
 	@Autowired
 	private SysResourceDao sysResourceDao;
@@ -51,12 +58,25 @@ public class ResourceScanUtils implements InitializingBean {
 		}
 	}
 
+
 	private void scanAllController() {
 		Reflections reflections = new Reflections(BACK_AGE);
 		Set<Class<? extends BaseSpringController>> set = reflections.getSubTypesOf(BaseSpringController.class);
+		allSysResource= getAllSysResource();
 		for (Class<?> controller : set) {
 			execute(controller);
 		}
+	}
+
+	private  Map<String,SysResource> getAllSysResource(){
+		SysResourceExample example=new SysResourceExample();
+		List<SysResource> list= sysResourceDao.selectByExample(example);
+		list.size();
+		return 	list.stream().collect(Collectors.toMap(key->key.getResourcePath(), data->data));
+	}
+
+	private  SysResource queryByResourcePath(String resourcePath){
+		return allSysResource.get(resourcePath);
 	}
 
 	private void execute(Class<?> controller) {
@@ -76,7 +96,8 @@ public class ResourceScanUtils implements InitializingBean {
 
 		SysResource sysResource = new SysResource();
 		getResource(controllerRequestMapping, method, sysResource);
-		SysResource queryData = sysResourceDao.queryByResourcePath(sysResource.getResourcePath());
+
+		SysResource queryData = queryByResourcePath(sysResource.getResourcePath());
 		if (Objects.isNull(queryData)) {
 			sysResourceDao.insertSelective(sysResource);
 		} else {

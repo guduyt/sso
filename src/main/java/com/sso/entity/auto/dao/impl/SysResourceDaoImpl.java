@@ -15,6 +15,7 @@ import com.yt.mybatis.dao.BasePKDaoAdapter;
 @Repository
 public class SysResourceDaoImpl extends BasePKDaoAdapter<Integer, SysResource, SysResourceExample, SysResourceMapper> implements SysResourceDao {
 
+	@Override
 	public SysResource queryByResourcePath(String resourcePath) {
 		SysResourceExample example = new SysResourceExample();
 		example.createCriteria().andResourcePathEqualTo(resourcePath);
