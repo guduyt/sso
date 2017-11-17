@@ -1,9 +1,15 @@
 package com.sso.business.security;
 
-import com.sso.entity.manual.dao.SecurityResourceDao;
-import com.sso.entity.manual.model.SecurityResource;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.FilterInvocation;
@@ -12,11 +18,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import com.sso.entity.manual.dao.SecurityResourceDao;
+import com.sso.entity.manual.model.SecurityResource;
 
 /**
  * SecurityMetadataSourceImpl
@@ -57,14 +60,9 @@ public class SecurityMetadataSourceImpl implements FilterInvocationSecurityMetad
 			}
 
 		}
-		/*if (collection.size() == 0) {
-			collection.add(new ConfigAttribute() {
-				@Override
-				public String getAttribute() {
-					return "ROLE_NO_USER";
-				}
-			});
-		}*/
+		if(collection.size() == 0){
+			throw  new AccessDeniedException("请求资源"+request.getRequestURI()+"未配置访问权限!");
+		}
 		return collection;
 	}
 
