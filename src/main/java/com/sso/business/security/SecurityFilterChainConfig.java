@@ -4,6 +4,7 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -14,6 +15,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
  * @version 1.0.0
  * @date 2017/7/28 22:20
  */
+@Order(0)
 @Configuration
 public class SecurityFilterChainConfig extends AbstractSecurityWebApplicationInitializer {
     @Override

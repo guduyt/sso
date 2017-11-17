@@ -70,7 +70,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
         </bean>
       </mvc:interceptor>
     </mvc:interceptors>-->
-
+    <!--<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />-->
     <bean id="templateResolver"
           class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
         <property name="prefix" value="/" />

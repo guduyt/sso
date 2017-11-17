@@ -10,11 +10,13 @@
 
 <!-- 配置不过滤的资源（静态资源及登录相关） -->
     <http pattern="/**/*.css" security="none"></http>
+    <http pattern="/**/*.css.map" security="none"></http>
     <http pattern="/**/*.jpg" security="none"></http>
     <http pattern="/**/*.jpeg" security="none"></http>
     <http pattern="/**/*.gif" security="none"></http>
     <http pattern="/**/*.png" security="none"></http>
     <http pattern="/**/*.js" security="none"></http>
+    <http pattern="/**/*.ico" security="none"></http>
     <http pattern="/login.html" security="none"></http>
     <http pattern="/index.html" security="none"></http>
     <http pattern="/getCode" security="none" /><!-- 不过滤验证码 -->
