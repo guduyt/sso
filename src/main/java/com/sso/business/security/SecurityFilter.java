@@ -1,23 +1,18 @@
 package com.sso.business.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.SecurityMetadataSource;
-import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
-import org.springframework.security.access.intercept.InterceptorStatusToken;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.web.FilterInvocation;
-import org.springframework.stereotype.Service;
+import java.io.IOException;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.io.IOException;
+
+import org.springframework.security.access.SecurityMetadataSource;
+import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
+import org.springframework.security.access.intercept.InterceptorStatusToken;
+import org.springframework.security.web.FilterInvocation;
 
 /**
  * SecurityFilter
@@ -26,27 +21,17 @@ import java.io.IOException;
  * @version 1.0.0
  * @date 2017/7/11 23:51
  */
-@Service("securityFilter")
 public class SecurityFilter extends AbstractSecurityInterceptor implements Filter {
-
-	@Autowired
-	@Qualifier("securityMetadataSourceImpl")
+	
 	private SecurityMetadataSource securityMetadataSource;
 
-	@Autowired
-	@Qualifier("securityAccessDecisionManagerImpl")
-	private AccessDecisionManager accessDecisionManager;
-
-	@Autowired
-	@Qualifier("authenticationManager")
-	private AuthenticationManager authenticationManager ;
-
-	@PostConstruct
-	public void init(){
-		super.setAccessDecisionManager(accessDecisionManager);
-		super.setAuthenticationManager(authenticationManager);
+	public SecurityMetadataSource getSecurityMetadataSource() {
+		return securityMetadataSource;
 	}
 
+	public void setSecurityMetadataSource(SecurityMetadataSource securityMetadataSource) {
+		this.securityMetadataSource = securityMetadataSource;
+	}
 
 	@Override
 	public SecurityMetadataSource obtainSecurityMetadataSource() {

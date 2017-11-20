@@ -40,7 +40,7 @@
         <session-management session-fixation-protection="migrateSession">
             <concurrency-control  max-sessions="1" error-if-maximum-exceeded="true"/>
         </session-management>
-        <access-denied-handler ref="accessDeniedHandler" />
+       <!-- <access-denied-handler ref="accessDeniedHandler" />-->
     </http>
 
     <b:bean id="successHandler"  class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
@@ -50,10 +50,10 @@
         <b:property name="defaultFailureUrl" value="/login.html?error=true"/>
     </b:bean>
 
-    <b:bean id="accessDeniedHandler"
+    <!--<b:bean id="accessDeniedHandler"
                 class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
         <b:property name="errorPage" value="/www/error/accessDenied.html"/>
-    </b:bean>
+    </b:bean>-->
 
     <b:bean id="sysLoginUrlAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
         <b:constructor-arg name="loginFormUrl" value="/login.html"></b:constructor-arg>

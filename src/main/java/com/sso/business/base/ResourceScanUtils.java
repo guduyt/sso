@@ -179,9 +179,11 @@ public class ResourceScanUtils implements InitializingBean {
 	}
 
 	private String getRequestMappingUrl(RequestMapping requestMapping){
-		String[] values = requestMapping.value();
-		if (values.length > 0 &&  values[0].length()!=0) {
-			return values[0];
+		if (Objects.nonNull(requestMapping)) {
+			String[] values = requestMapping.value();
+			if (values.length > 0 &&  values[0].length()!=0) {
+				return values[0];
+			}
 		}
 		return "/";
 	}
