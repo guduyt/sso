@@ -75,7 +75,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
           class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
         <property name="prefix" value="/" />
         <property name="suffix" value=".html" />
-        <property name="templateMode" value="HTML5" />
+        <property name="templateMode" value="HTML" />
         <property name="cacheable" value="false" />
         <property name="characterEncoding" value="utf-8"/>
     </bean>

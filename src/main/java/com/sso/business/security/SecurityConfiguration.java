@@ -124,8 +124,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth
+				.authenticationProvider(daoAuthenticationProvider())
 				.authenticationEventPublisher(authenticationEventPublisher())
-				.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
+				.eraseCredentials(false);
 	}
 
 	@Bean
@@ -150,6 +151,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected AuthenticationManager authenticationManager() throws Exception {
 		ProviderManager authenticationManager = new ProviderManager(Arrays.asList(daoAuthenticationProvider()));
+		authenticationManager.setAuthenticationEventPublisher(authenticationEventPublisher());
 		authenticationManager.setEraseCredentialsAfterAuthentication(false);
 		return authenticationManager;
 	}
