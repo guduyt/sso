@@ -6,4 +6,5 @@ package com.sso.yt.commons.constants;
 public class CommonConstant {
 	public static final String ACTIVE_PROFILES="spring.profiles.active";
 	public static final int APP_ID=1;
+	public static final String ADMIN="admin";
 }

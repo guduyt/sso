@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.FilterInvocation;
@@ -20,6 +19,10 @@ import org.springframework.stereotype.Service;
 
 import com.sso.entity.manual.dao.SecurityResourceDao;
 import com.sso.entity.manual.model.SecurityResource;
+import com.sso.entity.manual.model.SecurityRole;
+
+import static com.sso.yt.commons.constants.CommonConstant.ADMIN;
+import static com.sso.yt.commons.constants.CommonConstant.APP_ID;
 
 /**
  * SecurityMetadataSourceImpl
@@ -38,6 +41,13 @@ public class SecurityMetadataSourceImpl implements FilterInvocationSecurityMetad
 	private RequestMatcher requestMatcher;
 	private SessionRegistry sessionRegistry;
 
+	private static SecurityRole adminRole;
+	 static {
+		 adminRole=new SecurityRole();
+		 adminRole.setRoleName(ADMIN);
+		 adminRole.setAppId(APP_ID);
+	 }
+
 
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object object){
@@ -45,6 +55,7 @@ public class SecurityMetadataSourceImpl implements FilterInvocationSecurityMetad
 			 loadResource();
 		Collection<ConfigAttribute> collection = new ArrayList<>();
 		HttpServletRequest request = ((FilterInvocation) object).getRequest();
+
 		Iterator<SecurityResource> iterator=list.iterator();
 		while (iterator.hasNext()) {
 			RequestMatcher requestMatcherRole;
@@ -58,11 +69,11 @@ public class SecurityMetadataSourceImpl implements FilterInvocationSecurityMetad
 				//获得该uri所需要的角色列表
 				collection.addAll(securityResource.getSecurityRoles());
 			}
-
 		}
-		if(collection.size() == 0){
+		collection.add(adminRole);
+		/*if(collection.size() == 0){
 			throw  new AccessDeniedException("请求资源"+request.getRequestURI()+"未配置访问权限!");
-		}
+		}*/
 		return collection;
 	}
 
