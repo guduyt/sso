@@ -1,10 +1,8 @@
 package com.sso.business.security;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-
+import com.sso.entity.manual.model.SecurityRole;
+import com.sso.yt.commons.constants.error.SecurityErrorCode;
+import com.sso.yt.commons.exceptions.ValidateException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.ConfigAttribute;
@@ -12,9 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import com.sso.entity.manual.model.SecurityRole;
-import com.sso.yt.commons.constants.error.SecurityErrorCode;
-import com.sso.yt.commons.exceptions.ValidateException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Objects;
 
 import static com.sso.yt.commons.constants.CommonConstant.ADMIN;
 
@@ -33,9 +31,11 @@ public class SecurityAccessDecisionManagerImpl implements AccessDecisionManager 
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) {
         if(Objects.nonNull(authentication) && CollectionUtils.isNotEmpty(authentication.getAuthorities())){
              //如果是管理员，就放弃权限检查
-            for (SecurityRole securityRole: ( List<SecurityRole>)authentication.getAuthorities()) {
-                if(ADMIN.equals(securityRole.getRoleName())){
-                    return;
+            for (GrantedAuthority securityRole: authentication.getAuthorities()) {
+                if(securityRole instanceof SecurityRole){
+                    if(ADMIN.equals(((SecurityRole)securityRole).getRoleName())){
+                        return;
+                    }
                 }
             }
         }
