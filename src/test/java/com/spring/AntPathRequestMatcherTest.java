@@ -16,10 +16,10 @@ public class AntPathRequestMatcherTest {
     public void matcherTest(){
 
         AntPathMatcher antPathMatcher=new AntPathMatcher();
-        Assert.assertTrue("/demo/{id}不匹配/demo/2",antPathMatcher.match("/demo/{id}","/demo/2"));
+        Assert.assertTrue("/demo/{id}匹配/demo/2",antPathMatcher.match("/demo/{id}","/demo/2"));
 
-        Assert.assertTrue("/demo/{id}不匹配/demo/id",antPathMatcher.match("/demo/{id}","/demo/id"));
-        Assert.assertTrue("/demo/{id}不匹配/demo/query",antPathMatcher.match("/demo/{id}","/demo/query"));
+        Assert.assertTrue("/demo/{id}匹配/demo/id",antPathMatcher.match("/demo/{id}","/demo/id"));
+        Assert.assertTrue("/demo/{id}匹配/demo/query",antPathMatcher.match("/demo/{id}","/demo/query"));
         Assert.assertFalse("/demo/query/{id}不匹配/demo/query",antPathMatcher.match("/demo/query/{id}","/demo/query"));
         Assert.assertFalse("/demo/{id}不匹配/demo/",antPathMatcher.match("/demo/{id}","/demo/"));
     }

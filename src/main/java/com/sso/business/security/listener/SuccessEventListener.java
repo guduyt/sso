@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by yt on 2016-11-03.
+ * 
  */
 @Component
 public class SuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {

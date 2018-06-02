@@ -1,11 +1,10 @@
 package com.sso.business.security;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.sql.DataSource;
-
+import com.sso.business.security.filter.SecurityFilter;
+import com.sso.business.security.filter.UsernamePasswordCodeAuthenticationFilter;
+import com.sso.business.security.handler.SecurityAccessDeniedHandler;
+import com.sso.business.security.handler.SecurityAuthenticationFailureHandler;
+import com.sso.business.security.handler.SecurityAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -21,19 +20,28 @@ import org.springframework.security.authentication.dao.ReflectionSaltSource;
 import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.authentication.encoding.BasePasswordEncoder;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by yt on 2017-11-18 10:03.
@@ -76,6 +84,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		ignoreUrls.add("/**/*.js");
 		ignoreUrls.add("/**/*.ico");
 		ignoreUrls.add("/login");
+		ignoreUrls.add("/login/imageCode");
 		ignoreUrls.add("/login.html");
 		ignoreUrls.add("/index.html");
 	}
@@ -93,19 +102,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/**/*.jpg",
 						"/**/*.png",
 						"/index.html",
-						"/login.html");
+						"/login.html",
+						"/loginImageCode.html",
+						"/login/imageCode");
+		
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.antMatchers("/login").anonymous()
+		
+		http
+				.authorizeRequests()
+				.antMatchers("/login").permitAll()
 				.anyRequest().authenticated()
+				.and().apply(getCodeSecurityConfig())
 				.and().addFilterBefore(getSecurityInterceptor(),FilterSecurityInterceptor.class)
 				.formLogin()
 				.usernameParameter("username").passwordParameter("password")
 				.loginPage("/login.html").loginProcessingUrl("/login")
-				.successHandler(getLoginSuccessHandler()).failureHandler(getLoginfailureHandler()) .permitAll()
+				.successHandler(getLoginSuccessHandler()).failureHandler(getLoginFailureHandler()) .permitAll()
 				.and()
 				.logout()
 				.logoutUrl("/logout").permitAll()
@@ -113,11 +128,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true).deleteCookies("JSESSIONID")
 				.and()
 				.rememberMe()
-				.rememberMeParameter("rememberMe").tokenRepository(getTokenRepository())
+				.rememberMeParameter("rememberMe").tokenRepository(getTokenRepository()).userDetailsService(userDetailsService())
 				.and()
 				.sessionManagement().maximumSessions(1).expiredUrl("/login.html")
 				.and().invalidSessionUrl("/login.html").sessionFixation().migrateSession()
-				.and().csrf().disable();
+				.and().csrf().disable()
+				.anonymous().disable();
+		  http
+				.exceptionHandling()
+				.accessDeniedHandler(getSecurityAccessDeniedHandler());
 
 	}
 
@@ -149,7 +168,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 	@Override
-	protected AuthenticationManager authenticationManager() throws Exception {
+	@Bean
+	public AuthenticationManager authenticationManager() throws Exception {
 		ProviderManager authenticationManager = new ProviderManager(Arrays.asList(daoAuthenticationProvider()));
 		authenticationManager.setAuthenticationEventPublisher(authenticationEventPublisher());
 		authenticationManager.setEraseCredentialsAfterAuthentication(false);
@@ -172,6 +192,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return userDetailsService;
 	}
 
+	/*public OAuth2ClientAuthenticationProcessingFilter getOauth(){
+		OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationProcessingFilter=new OAuth2ClientAuthenticationProcessingFilter("/login");
+		return oAuth2ClientAuthenticationProcessingFilter;
+	}*/
 
 	@Bean
 	public SecurityFilter getSecurityInterceptor(){
@@ -182,11 +206,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	private AuthenticationSuccessHandler getLoginSuccessHandler(){
-		return new SimpleUrlAuthenticationSuccessHandler(DEFAULT_HOMe);
+		return new SecurityAuthenticationSuccessHandler(DEFAULT_HOMe);
 	}
 
-	private AuthenticationFailureHandler getLoginfailureHandler(){
-		return new SimpleUrlAuthenticationFailureHandler(DEFAULT_LOGIN+"?error");
+	private AuthenticationFailureHandler getLoginFailureHandler(){
+		return new SecurityAuthenticationFailureHandler(DEFAULT_LOGIN+"?error");
+	}
+
+	private AccessDeniedHandler getSecurityAccessDeniedHandler(){
+		return new SecurityAccessDeniedHandler();
 	}
 
 
@@ -194,6 +222,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		JdbcTokenRepositoryImpl tokenRepository= new JdbcTokenRepositoryImpl();
 		tokenRepository.setDataSource(dataSource);
 		return tokenRepository;
+	}
+
+	@Bean
+	public CodeSecurityConfig getCodeSecurityConfig(){
+		return new  CodeSecurityConfig();
+	}
+	class CodeSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+		@Override
+		public void configure(HttpSecurity http) throws Exception {
+			UsernamePasswordCodeAuthenticationFilter codeAuthenticationFilter=new UsernamePasswordCodeAuthenticationFilter();
+			codeAuthenticationFilter.setAuthenticationManager(authenticationManager());
+			codeAuthenticationFilter.setAuthenticationSuccessHandler(getLoginSuccessHandler());
+			codeAuthenticationFilter.setAuthenticationFailureHandler(getLoginFailureHandler());
+			codeAuthenticationFilter.setRememberMeServices(new PersistentTokenBasedRememberMeServices(UUID.randomUUID().toString(), userDetailsService, getTokenRepository()));
+
+			http.authenticationProvider(daoAuthenticationProvider())
+					.addFilterAfter(codeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+		}
 	}
 
 }

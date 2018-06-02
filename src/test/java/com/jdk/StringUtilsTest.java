@@ -1,13 +1,12 @@
 package com.jdk;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.sso.yt.commons.utils.LogUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import com.sso.yt.commons.utils.LogUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by yt on 2017-7-7.
@@ -16,7 +15,7 @@ import com.sso.yt.commons.utils.LogUtils;
 public class StringUtilsTest {
 
 	@Test
-	public void  stringUtils_substring(){
+	public void  stringUtilsSubstring(){
 		  String msg="100040044:价格必须在区间{min}-{max}" ;
 		if (msg.indexOf(":") != -1) {
 
@@ -29,7 +28,7 @@ public class StringUtilsTest {
 
 
 	@Test
-	public void arrayList_to_string(){
+	public void arrayListToString(){
 		List<String> ignoreUrls=new ArrayList<>();
 		ignoreUrls.add("/**/*.css");
 		ignoreUrls.add("/**/*.css.map");

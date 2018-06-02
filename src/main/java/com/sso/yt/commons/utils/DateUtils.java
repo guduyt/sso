@@ -1,14 +1,17 @@
 package com.sso.yt.commons.utils;
 
-import com.sso.yt.commons.DateFormat;
+import com.sso.yt.commons.DateFormatType;
 import com.sso.yt.commons.constants.error.code.ErrorCode;
 import com.sso.yt.commons.exceptions.BusinessException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -18,7 +21,7 @@ import java.util.regex.Pattern;
  * @version 1.0.0
  * @date 2016/5/27 16:44
  */
-public class DateUtils extends org.apache.commons.lang3.time.DateUtils implements DateFormat {
+public class DateUtils extends org.apache.commons.lang3.time.DateUtils implements DateFormatType {
     /**
      * 判断字符串是否是空字符串
      * @param s
@@ -62,12 +65,12 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
      * @return
      */
     public static String defaultTimeNow(){
-        return dateFormat(new Date(),DateFormat_TIME);
+        return dateFormat(new Date(),DateFormat_TIME_DEFAULT);
     }
 
 
     /**
-     * 获取当前时间的默认时间格式 yyyy-MM-dd HH:mm:ss
+     * 获取时间的默认时间格式 yyyy-MM-dd HH:mm:ss
      * @param date  日期
      * @return
      */
@@ -76,7 +79,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
     }
 
     /**
-     * 获取当前时间的默认时间格式 yyyy-MM-dd
+     * 获取时间的默认时间格式 yyyy-MM-dd
      * @param date  日期
      * @return
      */
@@ -85,12 +88,12 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
     }
 
     /**
-     * 获取当前时间的默认时间格式 HH:mm:ss
+     * 获取时间的默认时间格式 HH:mm:ss
      * @param date  日期
      * @return
      */
     public static String defaultTime( Date date) {
-        return  dateFormat(date,DateFormat_TIME);
+        return  dateFormat(date,DateFormat_TIME_DEFAULT);
     }
 
     /**
@@ -100,7 +103,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
      * @return
      */
     public static String dateFormat( Date date,String dateFormat) {
-        java.text.DateFormat sdf = DateFormatPool.getDateFormat(dateFormat);
+        DateFormat sdf = DateFormatPool.getDateFormat(dateFormat);
         return sdf.format(date);
     }
 
@@ -130,8 +133,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
      * @return
      */
     public static Date toDateForFormat(String str) {
-        try {
-            String[] parsePatterns = { DateFormat_DEFAULT, DateFormat_ONE,DateFormat_TWO,DateFormat_THREE,DateFormat_DATE_DEFAULT,DateFormat__DATE_ONE,DateFormat_DATE_TWO,DateFormat_DATE_THREE,DateFormat_TIME };
+        try {    
+            String[] parsePatterns = { DateFormat_DEFAULT, DateFormat_ONE,DateFormat_TWO,DateFormat_THREE,DateFormat_DATE_DEFAULT,DateFormat_DATE_ONE,DateFormat_DATE_TWO,DateFormat_DATE_THREE,DateFormat_TIME_DEFAULT };
             return parseDate(str, parsePatterns);
         } catch (ParseException ex) {
             throw new BusinessException(ErrorCode.CODE_1000012,"转化日期错误[输入：" + str + "]",ex);
@@ -200,7 +203,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
         if(p.matcher(str).matches()){
             p=Pattern.compile("^\\d{4}(\\/)\\d{1,2}\\1\\d{1,2}$");
             if(p.matcher(str).matches()){
-                return DateUtils.DateFormat__DATE_ONE;
+                return DateUtils.DateFormat_DATE_ONE;
             } else {
                 return DateUtils.DateFormat_ONE;
             }
@@ -289,6 +292,32 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils implement
         cal.set(Calendar.SECOND, 59);
         cal.set(Calendar.MILLISECOND, 999);
         return cal.getTime();
+    }
+
+
+    public static class DateFormatPool {
+        public static final Map<String, ThreadLocal<DateFormat>> DATE_FORMAT_POOL = new HashMap<String, ThreadLocal<DateFormat>>();
+
+        static DateFormat getDateFormat(String format) {
+            ThreadLocal<DateFormat> threadLocal = DATE_FORMAT_POOL.get(format);
+            if (threadLocal == null)
+                threadLocal = initThreadLocal(format);
+            return threadLocal.get();
+        }
+
+        private static synchronized ThreadLocal<DateFormat> initThreadLocal(final String format) {
+            ThreadLocal<DateFormat> threadLocal = DATE_FORMAT_POOL.get(format);
+            if (threadLocal == null) {
+                threadLocal = new ThreadLocal<DateFormat>() {
+                    @Override
+                    protected DateFormat initialValue() {
+                        return new SimpleDateFormat(format);
+                    }
+                };
+                DATE_FORMAT_POOL.put(format, threadLocal);
+            }
+            return threadLocal;
+        }
     }
 
 }

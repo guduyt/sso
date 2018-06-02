@@ -1,15 +1,13 @@
 package com.sso.yt.interceptor.exception;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
+import com.sso.business.base.JsonResult;
+import com.sso.yt.commons.exceptions.BaseException;
+import com.sso.yt.commons.exceptions.ValidateException;
+import com.sso.yt.commons.utils.RequestUtils;
+import com.sso.yt.commons.utils.ResponseUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.dao.DataAccessException;
 import org.springframework.validation.BindException;
@@ -17,16 +15,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver;
 
-import com.alibaba.fastjson.JSON;
-import com.sso.yt.commons.exceptions.BaseException;
-import com.sso.yt.commons.exceptions.ValidateException;
-import com.sso.yt.commons.utils.ResponseUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * ExceptionInterceptor
@@ -37,14 +31,12 @@ import com.sso.yt.commons.utils.ResponseUtils;
  */
 @ControllerAdvice
 public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver implements Ordered {
-    
-    protected  Logger logger = LoggerFactory.getLogger(this.getClass());
     private int code = -1;
     private String message;
 
     @Override
     protected ModelAndView doResolveHandlerMethodException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HandlerMethod handlerMethod, Exception ex) {
-        httpServletResponse.setStatus(500);
+        httpServletResponse.setStatus(200);
         Class exClass = ex.getClass();
 
         if (ClassUtils.isAssignable(exClass, BaseException.class)) { //自定义异常
@@ -86,6 +78,7 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
             }
         }
     }
+
     private void otherExceptionHandle(Exception ex){
         Class exClass = ex.getClass();
         logger.error(ex.getMessage(), ex);
@@ -111,12 +104,12 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
     }
 
     private ModelAndView handleResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HandlerMethod handlerMethod, int code, String message) {
-        if (isAjaxRequest(httpServletRequest, handlerMethod)) {
-            Map map = new HashMap<>();
-            map.put("code", code);
-            map.put("message", message);
-
-            ResponseUtils.renderJson(httpServletResponse, JSON.toJSONString(map));
+        if (RequestUtils.isAjaxRequest(httpServletRequest, handlerMethod)) {
+            JsonResult result=new JsonResult();
+            result.setCode(code);
+            result.setMessage(message);
+            
+            ResponseUtils.renderJson(httpServletResponse, JSON.toJSONString(result));
         } else {
             ModelAndView modelAndView = new ModelAndView("redirect:/www/error/500.html");
             modelAndView.getView();
@@ -127,19 +120,6 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
         return null;
     }
 
-    private Boolean isAjaxRequest(HttpServletRequest request, HandlerMethod handlerMethod) {
-        if (null != handlerMethod) {
-            if (null != handlerMethod.getBean().getClass().getDeclaredAnnotation(RestController.class))
-                return true;
-            if (null != handlerMethod.getMethodAnnotation(ResponseBody.class)) {
-                return true;
-            }
-        }
-        if (request.getHeader("accept").contains("application/json"))
-            return true;
-        return StringUtils.isNotBlank(request.getHeader("X-Requested-With"));
-    }
-
     private String getMessageFromBindingResult(BindingResult bindingResult){
         for (ObjectError error :  bindingResult.getAllErrors()) {
             return error.getDefaultMessage();
@@ -148,6 +128,6 @@ public class ExceptionInterceptor extends AbstractHandlerMethodExceptionResolver
     }
     @Override
     public int getOrder() {
-        return 0;
+        return 1;
     }
 }
