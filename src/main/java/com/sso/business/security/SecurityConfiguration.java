@@ -32,16 +32,15 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by yt on 2017-11-18 10:03.
@@ -232,10 +231,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			UsernamePasswordCodeAuthenticationFilter codeAuthenticationFilter=new UsernamePasswordCodeAuthenticationFilter();
-			codeAuthenticationFilter.setAuthenticationManager(authenticationManager());
+			codeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
 			codeAuthenticationFilter.setAuthenticationSuccessHandler(getLoginSuccessHandler());
 			codeAuthenticationFilter.setAuthenticationFailureHandler(getLoginFailureHandler());
-			codeAuthenticationFilter.setRememberMeServices(new PersistentTokenBasedRememberMeServices(UUID.randomUUID().toString(), userDetailsService, getTokenRepository()));
+			codeAuthenticationFilter.setRememberMeServices(http.getSharedObject(RememberMeServices.class));
 
 			http.authenticationProvider(daoAuthenticationProvider())
 					.addFilterAfter(codeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

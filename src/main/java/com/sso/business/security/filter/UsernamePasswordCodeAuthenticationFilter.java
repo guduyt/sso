@@ -45,7 +45,7 @@ public class UsernamePasswordCodeAuthenticationFilter extends
 
         String sessionCode= (String) request.getSession().getAttribute(VerifyCodeGenerator.SESSION_IMAGE_CODE_KEY);
         String imageCode= request.getParameter(codeParameter);
-        if(Objects.isNull(imageCode) || !Objects.equals(sessionCode.toLowerCase(),imageCode.toLowerCase()) ){
+        if(Objects.isNull(imageCode) || Objects.isNull(sessionCode)|| !Objects.equals(sessionCode.toLowerCase(),imageCode.toLowerCase()) ){
             throw new AuthenticationServiceException("验证码错误");
         }
         logger.info("验证码校验通过");
